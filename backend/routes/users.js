@@ -4,6 +4,6 @@ var users_controller = require("../controllers/usersController");
 
 /* GET users listing. */
 router.get("/", users_controller.index);
-router.post("/create", users_controller.create);
+router.post("/", users_controller.create);
 
 module.exports = router;
