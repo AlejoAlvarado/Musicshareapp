@@ -14,10 +14,11 @@ exports.create = function (req, res, next) {
   let user = new User({
     name: req.body.name,
     username: req.body.username,
-    userid: req.body.userid,
+    //userid: req.body.userid,
     password: req.body.password,
-    photo: req.body.photo,
-    state: req.body.state,
+    //photo: req.body.photo,
+    //state: req.body.state,
+    email: req.body.email,
   });
 
   user.save((err) => {
