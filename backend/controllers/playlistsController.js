@@ -35,3 +35,28 @@ exports.create = function (req, res, next) {
     }
   });
 };
+
+exports.search = function(req, res, next) {
+    Playlist.findById(req.params.id, (err, playlist) => {
+        if (err)
+            return next(err)
+        res.send(playlist)
+    })
+}
+
+exports.update = function(req, res, next){
+    Playlist.findByIdAndUpdate(req.params.id, {$set: req.body},(err, playlist) => {
+        if (err)
+            return next(err)
+        res.send("Playlist updated succesfully")
+    })
+}
+
+
+exports.delete = function(req, res, next) {
+    Playlist.findByIdAndRemove(req.params.id, (err, playlist) => {
+        if (err)
+            return next(err)
+        res.send("Playlist eliminated succesfully")
+    })
+}
