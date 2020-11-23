@@ -29,3 +29,24 @@ exports.create = function (req, res, next) {
     }
   });
 };
+
+exports.search = function (req, res, next) {
+  User.findById(req.params.id, (err, user) => {
+    if (err) return next(err);
+    res.send(user);
+  });
+};
+
+exports.update = function (req, res, next) {
+  User.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, user) => {
+    if (err) return next(err);
+    res.send("User updated succesfully");
+  });
+};
+
+exports.delete = function (req, res, next) {
+  User.findByIdAndRemove(req.params.id, (err, user) => {
+    if (err) return next(err);
+    res.send("User eliminated succesfully");
+  });
+};
