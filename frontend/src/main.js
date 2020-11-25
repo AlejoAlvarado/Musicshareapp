@@ -14,7 +14,6 @@ const routes = [
 ];
 
 Vue.config.productionTip = false;
-Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 
 const router = new VueRouter({ routes });

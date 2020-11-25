@@ -1,25 +1,21 @@
-<template>
-  <div>
+<template
+  ><div>
     <v-container>
       <div>
         <v-form ref="form">
           <v-row>
-            <v-col>
-              <v-text-field
-                v-model="user.name"
-                :rules="nameRules"
-                label="Nombre"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="user.lastname"
-                :rules="nameRules"
-                label="Apellido"
-                required
-              ></v-text-field>
-            </v-col>
+            <v-text-field
+              v-model="user.name"
+              label="Nombre"
+              required
+            ></v-text-field>
+          </v-row>
+          <v-row>
+            <v-text-field
+              v-model="user.email"
+              label="Correo"
+              required
+            ></v-text-field>
           </v-row>
         </v-form>
       </div>
@@ -30,7 +26,12 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      user: {
+        name: "",
+        email: "",
+      },
+    };
   },
 };
 </script>
