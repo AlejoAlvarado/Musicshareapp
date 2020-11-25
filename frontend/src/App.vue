@@ -1,18 +1,18 @@
 <template>
   <v-app>
-    <v-navigation-drawer app>
+    <!-- <v-navigation-drawer app> -->
       <!-- -->
-    </v-navigation-drawer>
+    <!-- </v-navigation-drawer> -->
 
-    <v-app-bar app>
+    <!-- <v-app-bar app> -->
       <!-- -->
-    </v-app-bar>
+    <!-- </v-app-bar> -->
 
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
-        <v-card class="mx-auto" max-width="344" outlined>
+        <!-- <v-card class="mx-auto" max-width="344" outlined>
           <v-list-item three-line>
             <v-list-item-content>
               <div class="overline mb-4">
@@ -39,7 +39,7 @@
               Button
             </v-btn>
           </v-card-actions>
-        </v-card>
+        </v-card> -->
         <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>

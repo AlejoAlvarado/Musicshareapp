@@ -5,16 +5,22 @@ import VueRouter from "vue-router";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import Signup from "./components/UserViews/Signup";
+import Playlists from "./components/PlaylistViews/Playlists";
 
 const routes = [
   {
     path: "/signup",
     component: Signup,
   },
+  {
+    path: "/playlists",
+    component: Playlists,
+  }
 ];
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+Vue.use(VueRouter);
 
 const router = new VueRouter({ routes });
 
