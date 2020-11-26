@@ -8,6 +8,6 @@ router.get("/:id", playlists_controller.search)
 router.get("/", playlists_controller.index);
 router.post("/", playlists_controller.create);
 router.put("/", playlists_controller.update);
-router.delete("/", playlists_controller.delete);
+router.delete("/:id", playlists_controller.delete);
 
 module.exports = router;
