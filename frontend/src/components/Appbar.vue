@@ -1,11 +1,12 @@
 <template>
   <v-app-bar
     app
-    color="blue"
+    color="#0070a8"
   >
-    <h1 class="white--text">SpotiCloudy</h1>
+    <router-link to="/">
+        <h1 class="white--text">SpotiCloudy</h1>
+    </router-link>
     <v-spacer></v-spacer>
-    <v-btn class="white--text mr-2" to="/" color="blue">Home</v-btn>
     <v-btn class="white--text mr-2" to="/" color="blue">Friends</v-btn>
     <v-btn class="white--text mr-2" to="/" color="blue">Upload</v-btn>
     <v-btn class="white--text mr-2" to="/playlists" color="blue">Library</v-btn>
