@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -53,6 +54,26 @@ export default {
       showPass: false,
       rules: [],
     };
+  },
+  methods: {
+    registerUser() {
+      let data = this.user;
+      axios.post("/users/", data).then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          this.refreshUser();
+        } else {
+          console.log("Ocurrio un error en back");
+        }
+      });
+    },
+    refreshUser() {
+      this.user = {
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+      };
+    },
   },
 };
 </script>
