@@ -21,19 +21,13 @@
       </v-parallax>
       <!-- If using vue-router -->
       <router-view></router-view>
-      <Signup />
     </div>
   </v-app>
 </template>
 
 <script>
-//import HelloWorld from "./components/HelloWorld.vue";
-import Signup from "./components/UserViews/Signup";
 export default {
   name: "App",
-  components: {
-    Signup,
-  },
 };
 </script>
 
