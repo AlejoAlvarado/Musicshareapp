@@ -17,5 +17,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+  ::-webkit-scrollbar{
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track{
+    background: #FFFFFF
+  }
+  ::-webkit-scrollbar-thumb{
+    background:#000000;
+    border-radius: 7px;
+  }
+  
+
 </style>

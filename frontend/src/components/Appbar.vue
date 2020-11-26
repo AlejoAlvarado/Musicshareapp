@@ -15,7 +15,7 @@
         to="/signup"
         icon
     >
-        <v-icon>mdi-account-circle-outline</v-icon>
+        <v-icon color="white">mdi-account-circle-outline</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
