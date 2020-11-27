@@ -1,45 +1,45 @@
 <template>
-<main class="audioPlayer" id="app">
-    <div class="audioPlayerUI d-flex justify-center" :class="{'isDisabled': isPlaylistActive}">
+	<main class="audioPlayer" id="app">
+		<div class="audioPlayerUI d-flex justify-center" :class="{'isDisabled': isPlaylistActive}">
 
-      <div class="albumDetails d-flex align-center justify-center">
-        <div class="albumImage ml-5">
-            <transition name="ballmove" enter-active-class="animated zoomIn" leave-active-class="animated fadeOutDown" mode="out-in">
-                <img @load="onImageLoaded()" :src="musicPlaylist[currentSong].image" :key="currentSong" ondragstart="return false;" id="playerAlbumArt">
-            </transition>
-            <div class="loader" :key="currentSong">Loading...</div>
-        </div>
-        <div class="d-flex flex-column ml-10">
-            <transition name="slide-fade" mode="out-in">
-                <p class="title" :key="currentSong">{{ musicPlaylist[currentSong].title }}</p>
-            </transition>
-            <transition name="slide-fade" mode="out-in">
-                    <p class="artist mt-n1" :key="currentSong">{{ musicPlaylist[currentSong].artist }}</p>
-            </transition>
-        </div>
-      </div>
+		<div class="albumDetails d-flex align-center justify-center">
+			<div class="albumImage ml-5">
+				<transition name="ballmove" enter-active-class="animated zoomIn" leave-active-class="animated fadeOutDown" mode="out-in">
+					<img @load="onImageLoaded()" :src="musicPlaylist[currentSong].image" :key="currentSong" ondragstart="return false;" id="playerAlbumArt">
+				</transition>
+				<div class="loader" :key="currentSong">Loading...</div>
+			</div>
+			<div class="d-flex flex-column ml-10">
+				<transition name="slide-fade" mode="out-in">
+					<p class="title" :key="currentSong">{{ musicPlaylist[currentSong].title }}</p>
+				</transition>
+				<transition name="slide-fade" mode="out-in">
+						<p class="artist mt-n1" :key="currentSong">{{ musicPlaylist[currentSong].artist }}</p>
+				</transition>
+			</div>
+		</div>
 
-      <div class="d-flex flex-column ml-9">
-        <div class="playerButtons d-flex align-center">
-            <a class="button" :class="{'isDisabled':(currentSong==0)}" v-on:click="prevSong()" title="Previous Song"><i class="zmdi zmdi-skip-previous"></i></a>
-            <a class="button play" v-on:click="playAudio()" title="Play/Pause Song">
-                <transition name="slide-fade" mode="out-in">
-                            <i class="zmdi" :class="[currentlyStopped ? 'zmdi-stop' : (currentlyPlaying ? 'zmdi-pause-circle' : 'zmdi-play-circle')]" :key="1"></i>
-                </transition>   
-            </a>
-            <a class="button" :class="{'isDisabled':(currentSong==musicPlaylist.length-1)}" v-on:click="nextSong()" title="Next Song"><i class="zmdi zmdi-skip-next"></i></a>
-        </div>
-        <div class="currentTimeContainer mt-n6" style="text-align:center">
-                <span class="currentTime">{{ currentTime | fancyTimeFormat }}</span>
-                <span class="totalTime"> {{ trackDuration | fancyTimeFormat }}</span>
-                <!--<span style="color:black">({{ currentSong+1 }}/{{ musicPlaylist.length }})</span>-->
-        </div>
-        <div class="currentProgressBar mt-n1">
-                <div class="currentProgress" :style="{ width: currentProgressBar + '%' }"></div>
-        </div>
-      </div>
-    </div>
-</main>
+		<div class="d-flex flex-column ml-9">
+			<div class="playerButtons d-flex align-center">
+				<a class="button" :class="{'isDisabled':(currentSong==0)}" v-on:click="prevSong()" title="Previous Song"><i class="zmdi zmdi-skip-previous"></i></a>
+				<a class="button play" v-on:click="playAudio()" title="Play/Pause Song">
+					<transition name="slide-fade" mode="out-in">
+								<i class="zmdi" :class="[currentlyStopped ? 'zmdi-stop' : (currentlyPlaying ? 'zmdi-pause-circle' : 'zmdi-play-circle')]" :key="1"></i>
+					</transition>   
+				</a>
+				<a class="button" :class="{'isDisabled':(currentSong==musicPlaylist.length-1)}" v-on:click="nextSong()" title="Next Song"><i class="zmdi zmdi-skip-next"></i></a>
+			</div>
+			<div class="currentTimeContainer mt-n6" style="text-align:center">
+					<span class="currentTime">{{ currentTime | fancyTimeFormat }}</span>
+					<span class="totalTime"> {{ trackDuration | fancyTimeFormat }}</span>
+					<!--<span style="color:black">({{ currentSong+1 }}/{{ musicPlaylist.length }})</span>-->
+			</div>
+			<div class="currentProgressBar mt-n1">
+					<div class="currentProgress" :style="{ width: currentProgressBar + '%' }"></div>
+			</div>
+		</div>
+		</div>
+	</main>
 </template>
 
 <script>
@@ -57,7 +57,8 @@ export default {
             currentProgressBar: 0,
             isPlaylistActive: false,
             currentSong: 0,
-            debug: false,
+			debug: false,
+            audioFile: "",
             musicPlaylist: [
                 {
                     title: "Service Bell",
@@ -83,8 +84,7 @@ export default {
                     url: "http://soundbible.com/mp3/creepy-background-daniel_simon.mp3",
                     image: "https://source.unsplash.com/j0g8taxHZa0/400x400"
                 }
-            ],
-            audioFile: ""
+            ]
         }
 	},
 	mounted(){
