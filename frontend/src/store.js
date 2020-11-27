@@ -37,10 +37,10 @@ export default new Vuex.Store({
     mutations:{
         addSongToMusicPlaylist(state, newSong){
             state.musicPlaylist.push({
-                title:"NEWSONG",
-                artists: "EL ARTISTA",
+                title: newSong.title,
+                artists: newSong.artists,
                 url: newSong.songUrl,
-                image:"https://source.unsplash.com/j0g8taxHZa0/400x400"
+                image: newSong.imageUrl
             })
         }
     }

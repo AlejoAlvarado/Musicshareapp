@@ -2,6 +2,25 @@ const User = require("../models/users");
 const aws = require("aws-sdk");
 
 
+exports.add_song_to_user = function (req,res,next){
+  try {
+    console.log(req.file)
+    res.status(200).send({
+      message: "Uploaded the file successfully: ",
+      songData:{
+        title:"NEW SONG",
+        artists:"ME",
+        songUrl:"NONE",
+        imageUrl:"NONE"
+      }
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: `Could not upload the file:. ${err}`,
+    });
+  } 
+}
+
 
 exports.index = function (req, res, next) {
   User.find({}, (err, users) => {
@@ -53,7 +72,3 @@ exports.delete = function (req, res, next) {
     res.send("User eliminated succesfully");
   });
 };
-
-exports.add_song_to_user = function (req,res,next){
-  const s3 = new aws.S3(); 
-}
