@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Signup from "./components/UserViews/Signup";
 import Playlists from "./components/PlaylistViews/Playlists";
 import WelcomeView from './components/WelcomeView'
-
+import UploadView from './components/UploadViews/UploadView'
 Vue.use(Router);
 
 export default new Router({
@@ -19,6 +19,10 @@ export default new Router({
         {
             path: "/playlists",
             component: Playlists,
+        },
+        {
+            path:'/upload',
+            component:UploadView
         }
     ]
 })

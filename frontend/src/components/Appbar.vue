@@ -8,7 +8,7 @@
     </router-link>
     <v-spacer></v-spacer>
     <v-btn class="white--text mr-2" to="/" color="blue">Friends</v-btn>
-    <v-btn class="white--text mr-2" to="/" color="blue">Upload</v-btn>
+    <v-btn class="white--text mr-2" to="/upload" color="blue">Upload</v-btn>
     <v-btn class="white--text mr-2" to="/playlists" color="blue">Library</v-btn>
     <v-btn class="white--text mr-2" to="/" color="blue">Help</v-btn>
     <v-btn

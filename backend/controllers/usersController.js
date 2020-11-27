@@ -1,4 +1,7 @@
 const User = require("../models/users");
+const aws = require("aws-sdk");
+
+
 
 exports.index = function (req, res, next) {
   User.find({}, (err, users) => {
@@ -50,3 +53,7 @@ exports.delete = function (req, res, next) {
     res.send("User eliminated succesfully");
   });
 };
+
+exports.add_song_to_user = function (req,res,next){
+  const s3 = new aws.S3(); 
+}

@@ -7,6 +7,7 @@
             v-model="user.name"
             label="Nombre"
             required
+            dark
           ></v-text-field>
         </div>
         <div>
@@ -14,6 +15,7 @@
             v-model="user.username"
             label="Nombre de usuario"
             required
+            dark
           ></v-text-field>
         </div>
         <div>
@@ -21,6 +23,7 @@
             v-model="user.email"
             label="Correo"
             required
+            dark
           ></v-text-field>
         </div>
         <v-text-field
@@ -32,6 +35,7 @@
           hint="Por lo menos 5 caracteres"
           class="input-group--focused"
           @click:append="showPass = !showPass"
+          dark
         ></v-text-field>
 
         <v-btn rounded color="primary" @click="registerUser">Registrarse</v-btn>
