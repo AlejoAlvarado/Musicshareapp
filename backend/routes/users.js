@@ -11,8 +11,8 @@ const s3 = new aws.S3();
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
 /*aws.config.update({
-    accessKeyId:,
-    secretAccessKey:
+    accessKeyId: "",
+    secretAccessKey: ""
 })*/
 
 var storage = multerS3({
