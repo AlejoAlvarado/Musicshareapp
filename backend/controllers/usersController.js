@@ -1,20 +1,18 @@
 const User = require("../models/users");
-const aws = require("aws-sdk");
 
-
-exports.add_song_to_user = function (req,res,next){
+exports.add_song_to_user = function (req,res){
   try {
-    console.log(req.file)
     res.status(200).send({
       message: "Uploaded the file successfully: ",
       songData:{
-        title:"NEW SONG",
+        title:req.file.originalname.split('.')[0],
         artists:"ME",
-        songUrl:"NONE",
+        songUrl: req.file.location,
         imageUrl:"NONE"
       }
     });
   } catch (err) {
+    console.log(err)
     res.status(500).send({
       message: `Could not upload the file:. ${err}`,
     });

@@ -16,7 +16,7 @@
       <v-col cols="8">
         <v-file-input
           show-size
-          label="File input"
+          label="Click to choose mp3 file"
           @change="selectFile"
           dark
         ></v-file-input>
@@ -76,7 +76,8 @@ export default {
             }).then((res)=>{
                 this.message=res.data.message;
                 this.$store.commit("addSongToMusicPlaylist",res.data.songData);
-            }).catch(()=>{
+            }).catch((err)=>{
+                console.log(err)
                 this.progress = 0;
                 this.message = "Could not upload the file!";
                 this.currentFile = undefined;

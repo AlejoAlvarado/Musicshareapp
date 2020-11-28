@@ -1,16 +1,29 @@
 var express = require("express");
 var router = express.Router();
 var users_controller = require("../controllers/usersController");
-var path=require('path')
-const multer = require('multer')
 
-var storage = multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null,'./uploads')
+var path=require('path')
+const aws = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const s3 = new aws.S3();
+
+//ATTENTION, DELETE THIS WHEN PUSHING
+//CREDENTIALS ARE ADDED HERE
+/*aws.config.update({
+    accessKeyId:,
+    secretAccessKey:
+})*/
+
+var storage = multerS3({
+    acl: "public-read",
+    s3,
+    bucket: "songs-bucket-adv-web",
+    metadata: function(req,file,cb){
+        cb(null,{fieldName:"TESTING_METADATA"});
     },
-    filename: function (req,file,cb){
-        var datetimestamp = Date.now();
-        cb(null,file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length-1])
+    Key: function(req,file,cb){
+        cb(null,Date.now().toString());
     }
 })
 const upload = multer({
@@ -30,6 +43,14 @@ router.post("/", users_controller.create);
 router.put("/:id", users_controller.update);
 router.delete("/:id", users_controller.delete);
 router.get("/:id", users_controller.search);
-router.post("/user-song",upload.single('file'),users_controller.add_song_to_user);
+router.post("/user-song",function(req,res){
+    upload.single('file')(req,res,function(err) {
+        if(err){
+            console.log(err);
+            return
+        }
+        users_controller.add_song_to_user(req,res)
+    })
+});
 
 module.exports = router;
