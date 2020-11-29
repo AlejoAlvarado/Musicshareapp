@@ -2,7 +2,7 @@
   <v-container>
     <v-row dense>
       <v-col v-for="(playlist, i) in playlists" :key="i" cols="12" md="6" lg="4">
-        <playlist-card :playlist="playlist" />
+        <playlist-card :playlist="playlist" :editable="true"/>
       </v-col>
     </v-row>
   </v-container>

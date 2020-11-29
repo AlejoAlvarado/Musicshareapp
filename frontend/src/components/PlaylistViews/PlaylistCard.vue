@@ -6,9 +6,9 @@
 
         <v-card-subtitle v-text="'By: ' + playlist.owner"></v-card-subtitle>
 
-        <v-card-actions>
+        <v-card-actions v-if="editable">
           <v-btn class="ml-2 mt-5" outlined rounded small>
-            OPEN PLAYLIST
+            <router-link :to="'/playlists/' + playlist._id"> OPEN PLAYLIST </router-link>
           </v-btn>
         </v-card-actions>
       </div>
@@ -25,6 +25,9 @@ export default {
   props: {
     playlist: {
       type: Object,
+    },
+    editable: {
+      type: Boolean,
     },
   },
 };
