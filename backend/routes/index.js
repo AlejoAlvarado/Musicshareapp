@@ -6,8 +6,8 @@ const auth = require("../middlewares/auth");
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
-router.get("/private", auth.isAuth, function (req, res) {
-  res.status(200).send({ message: "Tienes acceso" });
-});
+//router.get("/private", auth.isAuth, function (req, res) {
+//  res.status(200).send({ message: "Tienes acceso" });
+//});
 
 module.exports = router;
