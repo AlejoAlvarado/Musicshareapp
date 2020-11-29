@@ -1,24 +1,26 @@
 const User = require("../models/users");
+const service = require("../services/index");
 
-exports.add_song_to_user = function (req,res){
+var bcrypt = require("bcryptjs");
+
+exports.add_song_to_user = function (req, res) {
   try {
     res.status(200).send({
       message: "Uploaded the file successfully: ",
-      songData:{
-        title:req.file.originalname.split('.')[0],
-        artists:"ME",
+      songData: {
+        title: req.file.originalname.split(".")[0],
+        artists: "ME",
         songUrl: req.file.location,
-        imageUrl:"NONE"
-      }
+        imageUrl: "NONE",
+      },
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).send({
       message: `Could not upload the file:. ${err}`,
     });
-  } 
-}
-
+  }
+};
 
 exports.index = function (req, res, next) {
   User.find({}, (err, users) => {
@@ -35,7 +37,7 @@ exports.create = function (req, res, next) {
     name: req.body.name,
     username: req.body.username,
     //userid: req.body.userid,
-    password: req.body.password,
+    password: bcrypt.hashSync(req.body.password, 8),
     //photo: req.body.photo,
     //state: req.body.state,
     email: req.body.email,
@@ -43,9 +45,11 @@ exports.create = function (req, res, next) {
 
   user.save((err) => {
     if (err) {
-      return next(err);
+      res.status(500).send({ message: `Error al crear el usuario: ${err}` });
     } else {
-      res.send("User guardado exitosamente");
+      return res.status(200).send({
+        message: "User guardado exitosamente",
+      });
     }
   });
 };

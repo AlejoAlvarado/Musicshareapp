@@ -1,19 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let SongSchema= Schema ({
-  title: {type: String, required: true, max:100},
-  artist: {type: String, required: true, max:100},
-  songUrl: {type: String, required: true},
-  imageUrl: {type: String, required: true}
+let SongSchema = Schema({
+  title: { type: String, required: true, max: 100 },
+  artist: { type: String, required: true, max: 100 },
+  songUrl: { type: String, required: true },
+  imageUrl: { type: String, required: true },
 });
 
 let UserSchema = Schema({
+  _id: { type: String, required: false },
   name: { type: String, required: false, max: 100 },
   username: { type: String, require: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  songs: [SongSchema]
+  songs: [SongSchema],
 });
 
 module.exports = mongoose.model("User", UserSchema);
