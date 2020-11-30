@@ -9,7 +9,6 @@ let SongSchema = Schema({
 });
 
 let UserSchema = Schema({
-  _id: { type: String, required: false },
   name: { type: String, required: false, max: 100 },
   username: { type: String, require: true },
   email: { type: String, required: true },

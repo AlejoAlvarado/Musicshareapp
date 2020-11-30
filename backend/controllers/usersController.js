@@ -1,5 +1,5 @@
 const User = require("../models/users");
-const service = require("../services/index");
+const service = require("../services");
 
 var bcrypt = require("bcryptjs");
 
@@ -45,12 +45,27 @@ exports.create = function (req, res, next) {
 
   user.save((err) => {
     if (err) {
-      res.status(500).send({ message: `Error al crear el usuario: ${err}` });
+      res
+        .status(500)
+        .send({ message: `Error al crear el usuario: ${err}`, message2: err });
     } else {
       return res.status(200).send({
         message: "User guardado exitosamente",
       });
     }
+  });
+};
+
+exports.signinUser = function (req, res, next) {
+  User.find({ email: req.body.email }, (err, user) => {
+    if (err) return req.status(500).send({ message: err });
+    if (!user) return req.status(404).send({ message: "User no encontrado" });
+
+    req.user = user;
+    res.status(200).send({
+      message: "User logeado exitosamente!",
+      token: service.createToken(user),
+    });
   });
 };
 
