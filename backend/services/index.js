@@ -6,10 +6,12 @@ const config = require("../config");
 
 function createToken(user) {
   const payload = {
-    sub: user._id,
+    sub: user[0],
     iat: moment().unix(),
     exp: moment().add(1, "day").unix(),
   };
+
+  console.log(payload);
 
   return jwt.encode(payload, config.SECRET_TOKEN);
 }
