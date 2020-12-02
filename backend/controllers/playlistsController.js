@@ -23,7 +23,7 @@ exports.get_playlist_owner = function(req, res, next) {
 
 exports.search_my_playlists = function(req, res, next){
   const user_id = req.user;
-  User.findById(user_id).populate('playlists').exec((err, owner) => {
+  User.findById(user_id).populate('playlists').populate('sharedWithMe').exec((err, owner) => {
     if (err) {
       return next(err);
     } else {

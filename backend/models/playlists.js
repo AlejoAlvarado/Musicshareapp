@@ -5,7 +5,8 @@ let PlaylistSchema = Schema({
     title: {type: String, required: true, max:100},
     cover: {type: String, required: false},
     owner: {type: Schema.Types.ObjectId, ref: "User", required: true},
-    songs: [{type: Schema.Types.ObjectId, ref: "User.songs"}]
+    songs: [{type: Schema.Types.ObjectId, ref: "User.songs"}],
+    sharedWith: [{type: Schema.Types.ObjectId, ref: "User"}],
 });
 
 module.exports = mongoose.model('Playlist', PlaylistSchema);
