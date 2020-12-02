@@ -6,7 +6,7 @@ const config = require("../config");
 
 function createToken(user) {
   const payload = {
-    sub: user[0],
+    sub: user[0]._id,
     iat: moment().unix(),
     exp: moment().add(1, "day").unix(),
   };

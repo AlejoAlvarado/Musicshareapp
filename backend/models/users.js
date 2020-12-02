@@ -14,6 +14,7 @@ let UserSchema = Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   songs: [SongSchema],
+  playlists: [{type: Schema.Types.ObjectId, ref: "Playlist"}]
 });
 
 module.exports = mongoose.model("User", UserSchema);
