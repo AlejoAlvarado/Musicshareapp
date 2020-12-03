@@ -68,10 +68,9 @@ exports.create = function (req, res, next) {
 exports.signinUser = function (req, res, next) {
   User.find({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).send({ message: err });
-    if (!user.length)
-      return res.status(404).send({ message: "User no encontrado" });
-
-    console.log(user[0].password);
+    if (user.length < 1)
+      return res.status(400).send({ message: "User no encontrado" });
+    console.log(req.body.email);
     let equalPass =
       bcrypt.compareSync(req.body.password, user[0].password) ||
       user[0].password === req.body.password;
