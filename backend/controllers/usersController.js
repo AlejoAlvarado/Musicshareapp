@@ -68,10 +68,12 @@ exports.create = function (req, res, next) {
 exports.signinUser = function (req, res, next) {
   User.find({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).send({ message: err });
-    if (!user.length) return res.status(404).send({ message: "User no encontrado" });
+    if (!user.length)
+      return res.status(404).send({ message: "User no encontrado" });
 
     console.log(user[0].password);
-    let equalPass = bcrypt.compareSync(req.body.password, user[0].password) || 
+    let equalPass =
+      bcrypt.compareSync(req.body.password, user[0].password) ||
       user[0].password === req.body.password;
     console.log(equalPass);
     if (equalPass) {
@@ -79,6 +81,7 @@ exports.signinUser = function (req, res, next) {
       return res.status(200).send({
         message: "User logeado exitosamente!",
         token: service.createToken(user),
+        user: user,
       });
     } else {
       console.log("mala contraseña");

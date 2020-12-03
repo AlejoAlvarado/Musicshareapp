@@ -1,5 +1,26 @@
 <template>
   <div>
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          Sesión iniciada
+        </v-card-title>
+
+        <v-card-text>
+          {{ loginMessage }}
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat @click="dialog = false">
+            Entendido!
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-container>
       <v-form ref="form" align="center">
         <div>
@@ -22,15 +43,15 @@
           dark
         ></v-text-field>
 
-        <v-btn rounded color="primary" @click="registerUser"
-          >Iniciar Sesión</v-btn
-        >
+        <v-btn rounded color="primary" @click="loginUser">Iniciar Sesión</v-btn>
       </v-form>
     </v-container>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -38,10 +59,23 @@ export default {
         email: "",
         password: "",
       },
+      loginMessage: "something something",
+      dialog: false,
+      showPass: false,
     };
   },
   methods: {
-    loginUser() {},
+    ...mapActions(["login"]),
+
+    loginUser() {
+      this.login(this.user);
+      if (this.$store.state.authstatus.isLoggedIn) {
+        this.loginMessage = "Ha iniciado sesion exitosamente";
+      } else {
+        this.loginMessage = "Email y/o contraseña incorrectos";
+      }
+      this.dialog = true;
+    },
   },
 };
 </script>

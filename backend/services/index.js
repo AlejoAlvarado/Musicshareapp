@@ -8,7 +8,7 @@ function createToken(user) {
   const payload = {
     sub: user[0],
     iat: moment().unix(),
-    exp: moment().add(1, "day").unix(),
+    exp: moment().add(30, "minutes").unix(),
   };
 
   console.log(payload);
