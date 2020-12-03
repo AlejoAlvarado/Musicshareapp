@@ -14,7 +14,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="dialog = false">
+          <v-btn color="primary" flat @click="handleDialog">
             Entendido!
           </v-btn>
         </v-card-actions>
@@ -68,13 +68,28 @@ export default {
     ...mapActions(["login"]),
 
     loginUser() {
-      this.login(this.user);
+      this.login(this.user).then(
+        () => {
+          this.loginMessage = "Ha iniciado sesion exitosamente";
+
+          this.dialog = true;
+        },
+        (error) => {
+          this.loginMessage = "Email y/o contraseña incorrectos";
+          console.log(error.response);
+          console.log(error.response.data.message);
+          this.dialog = true;
+        }
+      );
+      //console.log(this.$store);
+    },
+    handleDialog() {
       if (this.$store.state.authstatus.isLoggedIn) {
-        this.loginMessage = "Ha iniciado sesion exitosamente";
+        this.dialog = false;
+        this.$router.push("/");
       } else {
-        this.loginMessage = "Email y/o contraseña incorrectos";
+        this.dialog = false;
       }
-      this.dialog = true;
     },
   },
 };

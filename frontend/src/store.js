@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: JSON.parse(localStorage.getItem("user")),
+    //user: JSON.parse(localStorage.getItem("user")),
+    user: "",
     musicPlaylist: [
       {
         title: "Service Bell",
@@ -68,7 +69,8 @@ export default new Vuex.Store({
 
     loginSuccess(state, data) {
       state.authstatus.isLoggedIn = true;
-      state.user = data;
+      console.log(data.user[0]);
+      state.user = data.user[0];
     },
     loginFailure(state) {
       state.authstatus.loggedIn = false;
