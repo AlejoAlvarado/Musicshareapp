@@ -15,6 +15,7 @@ class AuthService {
   }
 
   logout() {
+    console.log(localStorage.getItem("user"));
     localStorage.removeItem("user");
   }
 

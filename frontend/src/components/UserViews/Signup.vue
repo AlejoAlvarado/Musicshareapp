@@ -5,7 +5,7 @@
         <div>
           <v-text-field
             v-model="user.name"
-            label="Nombre"
+            label="Name"
             required
             dark
           ></v-text-field>
@@ -13,7 +13,7 @@
         <div>
           <v-text-field
             v-model="user.username"
-            label="Nombre de usuario"
+            label="Usename"
             required
             dark
           ></v-text-field>
@@ -21,7 +21,7 @@
         <div>
           <v-text-field
             v-model="user.email"
-            label="Correo"
+            label="Email"
             required
             dark
           ></v-text-field>
@@ -38,7 +38,7 @@
           dark
         ></v-text-field>
 
-        <v-btn rounded color="primary" @click="registerUser">Registrarse</v-btn>
+        <v-btn rounded color="primary" @click="registerUser">Sign Up</v-btn>
       </v-form>
     </v-container>
   </div>

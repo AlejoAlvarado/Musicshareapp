@@ -53,6 +53,7 @@ export default new Vuex.Store({
       );
     },
     logout({ commit }) {
+      console.log("logging out");
       AuthService.logout();
       commit("logout");
     },
@@ -73,8 +74,17 @@ export default new Vuex.Store({
       state.user = data.user[0];
     },
     loginFailure(state) {
-      state.authstatus.loggedIn = false;
+      state.authstatus.isLoggedIn = false;
       state.data = null;
+    },
+    logout(state) {
+      state.authstatus.isLoggedIn = false;
+      state.user = "";
+    },
+  },
+  getters: {
+    isLoggedIn(state) {
+      return state.authstatus.isLoggedIn;
     },
   },
 });

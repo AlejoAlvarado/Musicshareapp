@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>
-          Sesión iniciada
+          Your account is signed in!
         </v-card-title>
 
         <v-card-text>
@@ -43,7 +43,7 @@
           dark
         ></v-text-field>
 
-        <v-btn rounded color="primary" @click="loginUser">Iniciar Sesión</v-btn>
+        <v-btn rounded color="primary" @click="loginUser">Sign In</v-btn>
       </v-form>
     </v-container>
   </div>
@@ -70,12 +70,12 @@ export default {
     loginUser() {
       this.login(this.user).then(
         () => {
-          this.loginMessage = "Ha iniciado sesion exitosamente";
+          this.loginMessage = "You have succesfully signed in!";
 
           this.dialog = true;
         },
         (error) => {
-          this.loginMessage = "Email y/o contraseña incorrectos";
+          this.loginMessage = "Incorrect email and/or password.";
           console.log(error.response);
           console.log(error.response.data.message);
           this.dialog = true;
