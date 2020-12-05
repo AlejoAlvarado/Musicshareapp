@@ -34,15 +34,21 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "checkIfLogged"]),
     logoutUser() {
       this.logout();
+    },
+    checkIfUserLogged() {
+      this.checkIfLogged();
     },
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
     },
+  },
+  created() {
+    this.checkIfUserLogged();
   },
 };
 </script>
