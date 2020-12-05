@@ -13,7 +13,9 @@ function isAuth(req, res, next) {
       next();
     })
     .catch((response) => {
-      res.status(response.status);
+      console.log("error happened");
+      console.log(response.status);
+      res.status(response.status).send({ message: "ocurrio un error" });
     });
 }
 
