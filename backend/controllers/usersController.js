@@ -97,6 +97,9 @@ exports.search = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
+  let password = bcrypt.hashSync(req.body.password, 8);
+  req.body.password = password;
+
   User.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, user) => {
     if (err) return next(err);
     res.send("User updated succesfully");

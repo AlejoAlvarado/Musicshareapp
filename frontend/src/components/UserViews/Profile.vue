@@ -1,6 +1,7 @@
 <template
   ><div>
     <v-container>
+      <h1>Profile</h1>
       <v-form ref="form" align="center">
         <div>
           <v-text-field
@@ -8,6 +9,8 @@
             label="Name"
             required
             dark
+            ref="textfield"
+            :disabled="!edit"
           ></v-text-field>
         </div>
         <div>
@@ -16,6 +19,7 @@
             label="Usename"
             required
             dark
+            :disabled="!edit"
           ></v-text-field>
         </div>
         <div>
@@ -24,6 +28,7 @@
             label="Email"
             required
             dark
+            :disabled="!edit"
           ></v-text-field>
         </div>
         <v-text-field
@@ -36,16 +41,29 @@
           class="input-group--focused"
           @click:append="showPass = !showPass"
           dark
+          :disabled="!edit"
         ></v-text-field>
 
-        <v-btn rounded color="primary" @click="registerUser">Sign Up</v-btn>
+        <div v-if="!edit" align="center">
+          <v-btn align="center" rounded color="primary" @click="editProfile"
+            >Edit profile</v-btn
+          >
+        </div>
+
+        <div v-else align="center">
+          <v-btn rounded @click="editProfile">Cancel</v-btn>
+
+          <v-btn rounded color="primary" @click="updateProfile"
+            >Save changes</v-btn
+          >
+        </div>
       </v-form>
     </v-container>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -57,13 +75,32 @@ export default {
       },
       showPass: false,
       rules: [],
+      edit: false,
     };
   },
-  methods: {},
+  methods: {
+    ...mapActions(["updateUser"]),
+    editProfile() {
+      this.edit = !this.edit;
+    },
+    updateProfile() {
+      this.updateUser(this.user);
+      this.editProfile();
+    },
+  },
   created() {
     this.user = this.$store.getters.getUser;
+    this.user.password = "";
   },
 };
 </script>
 
-<style></style>
+<style>
+h1 {
+  font-size: 45px;
+  color: rgb(255, 255, 255);
+}
+#textfield {
+  width: 50%;
+}
+</style>

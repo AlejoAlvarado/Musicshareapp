@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "./config/axios";
 import AuthService from "./services/auth.service";
 
 Vue.use(Vuex);
@@ -61,6 +62,18 @@ export default new Vuex.Store({
     checkIfLogged({ commit }) {
       commit("checkIfLogged");
     },
+    updateUser({ commit }, data) {
+      commit("updateUser", data);
+      let userid = data._id;
+      return axios.put("/users/" + userid, data).then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          alert("Usuario actualizado correctamente!");
+          // console.log("delete exitoso");
+        } else {
+          console.log("Hubo un error actualizando al usuario");
+        }
+      });
+    },
   },
   mutations: {
     addSongToMusicPlaylist(state, newSong) {
@@ -93,6 +106,14 @@ export default new Vuex.Store({
         state.user = token.user[0];
         state.authstatus.isLoggedIn = true;
       }
+    },
+    updateUser(state, data) {
+      console.log(data);
+      data.password = "";
+      let tok = JSON.parse(localStorage.getItem("user"));
+      tok.user[0] = data;
+      state.token = tok;
+      localStorage.setItem("user", JSON.stringify(tok));
     },
   },
   getters: {

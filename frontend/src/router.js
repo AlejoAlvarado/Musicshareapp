@@ -6,6 +6,7 @@ import Playlists from "./components/PlaylistViews/Playlists";
 import PlaylistInfo from "./components/PlaylistViews/PlaylistInfo";
 import WelcomeView from "./components/WelcomeView";
 import UploadView from "./components/UploadViews/UploadView";
+import Profile from "./components/UserViews/Profile";
 Vue.use(Router);
 
 export default new Router({
@@ -33,6 +34,10 @@ export default new Router({
     {
       path: "/playlists/:id",
       component: PlaylistInfo,
+    },
+    {
+      path: "/profile",
+      component: Profile,
     },
   ],
 });
