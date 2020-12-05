@@ -54,7 +54,7 @@ export default {
     axios
       .get("playlists/my/Playlists", {
         headers: {
-          authorization: "Bearer " + localStorage.getItem("jwt"),
+          authorization: "Bearer " + JSON.parse(localStorage.getItem("user")).token,
         },
       })
       .then((res) => {
