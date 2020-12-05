@@ -4,6 +4,8 @@ let url = "mongodb+srv://danrango:testforproyecto0012@cluster0.y9stk.mongodb.net
 
 mongoose.set("useNewUrlParser", true)
 mongoose.set("useUnifiedTopology", true)
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 mongoose.connect(url)
 

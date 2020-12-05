@@ -56,7 +56,6 @@ export default {
             trackDuration: 0,
             currentProgressBar: 0,
             isPlaylistActive: false,
-            currentSong: 0,
 			debug: false,
             audioFile: ""
         }
@@ -73,6 +72,14 @@ export default {
 	computed:{
 		musicPlaylist(){
 			return this.$store.state.musicPlaylist;
+		},
+		currentSong:{
+			get(){
+				return this.$store.state.currentSong;
+			},
+			set(value){
+				this.$store.commit("setCurrentSong",value);
+			}
 		}
 	},
 	methods: {

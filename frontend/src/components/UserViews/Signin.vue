@@ -14,7 +14,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="handleDialog">
+          <v-btn color="primary" text @click="handleDialog">
             Entendido!
           </v-btn>
         </v-card-actions>

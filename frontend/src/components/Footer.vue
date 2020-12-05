@@ -6,10 +6,51 @@
         color="#0070a8"
         flat
         tile
-        style="width:100%"
-        class="d-flex justify-center"
+        style="width:50%"
+        class="d-flex column-flex"
     >
-        <AudioPlayer/>
+        <AudioPlayer class="px-5" ref="audioPlayer"/>
+    </v-card>
+    <v-card
+        color="#0070a8"
+        flat
+        tile
+        style="width:50%"
+        class="d-flex column-flex"
+    >
+        <v-virtual-scroll
+          :bench="benched"
+          :items="musicPlayList"
+          height="124"
+          item-height="64"
+        >
+          <template v-slot:default="{ item }">
+            <v-list-item :key="item._id">
+
+              <v-list-item-content>
+                <v-list-item-title>
+                  <strong class="white--text"> {{ item.title }}</strong>
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-btn
+                  icon
+                  @click="setCurrentSong(item)"
+                >
+                  <v-icon 
+                    small
+                    color="white"
+                  >
+                    mdi-play
+                  </v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+
+            <v-divider></v-divider>
+          </template>
+        </v-virtual-scroll>
     </v-card>
   </v-footer>
 </template>
@@ -19,6 +60,25 @@ import AudioPlayer from './AudioPlayer'
 export default {
     components:{
         AudioPlayer
+    },
+    data(){
+      return {
+        benched:0
+      }
+    },
+    computed:{
+      musicPlayList(){
+        return this.$store.state.musicPlaylist;
+      },
+      currentSong(){
+        return this.$store.state.currentSong;
+      }
+    },
+    methods:{
+      setCurrentSong(item){
+        let index=this.$store.state.musicPlaylist.indexOf(item);
+        this.$refs.audioPlayer.changeSong(index);
+      }
     }
 }
 </script>

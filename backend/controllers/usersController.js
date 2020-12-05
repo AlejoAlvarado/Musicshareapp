@@ -5,14 +5,18 @@ var bcrypt = require("bcryptjs");
 
 exports.add_song_to_user = function (req, res) {
   try {
-    res.status(200).send({
-      message: "Uploaded the file successfully: ",
-      songData: {
-        title: req.file.originalname.split(".")[0],
-        artists: "ME",
-        songUrl: req.file.location,
-        imageUrl: "NONE",
-      },
+    var songData = {
+      title: req.file.originalname.split(".")[0],
+      artists: "ME",
+      songUrl: req.file.location,
+      imageUrl: "NONE",
+    }
+    User.findByIdAndUpdate({ _id: req.query.id},{$push: {songs:songData}},(err) => {
+      if (err) console.log(err)
+      res.status(200).send({
+        message: "Added the song successfully: ",
+        songData: songData,
+      });
     });
   } catch (err) {
     console.log(err);

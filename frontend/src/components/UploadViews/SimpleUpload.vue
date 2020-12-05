@@ -87,7 +87,7 @@ export default {
         sendFile(file, onUploadProgress){
             let formData = new FormData();
             formData.append('file',file);
-            return axios.post('/users/user-song',formData,{
+            return axios.post('/users/user-song?id='+this.$store.state.user._id,formData,{
                 headers:{
                     "Content-Type":"multipart/form-data"
                 },
