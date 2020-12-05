@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    //user: JSON.parse(localStorage.getItem("user")),
+    token: JSON.parse(localStorage.getItem("user")),
     user: "",
     musicPlaylist: [
       {
@@ -57,6 +57,10 @@ export default new Vuex.Store({
       AuthService.logout();
       commit("logout");
     },
+
+    checkIfLogged({ commit }) {
+      commit("checkIfLogged");
+    },
   },
   mutations: {
     addSongToMusicPlaylist(state, newSong) {
@@ -72,6 +76,7 @@ export default new Vuex.Store({
       state.authstatus.isLoggedIn = true;
       console.log(data.user[0]);
       state.user = data.user[0];
+      state.token = JSON.parse(localStorage.getItem("user"));
     },
     loginFailure(state) {
       state.authstatus.isLoggedIn = false;
@@ -80,11 +85,22 @@ export default new Vuex.Store({
     logout(state) {
       state.authstatus.isLoggedIn = false;
       state.user = "";
+      state.token = null;
+    },
+    checkIfLogged(state) {
+      let token = JSON.parse(localStorage.getItem("user"));
+      if (token != null) {
+        state.user = token.user[0];
+        state.authstatus.isLoggedIn = true;
+      }
     },
   },
   getters: {
     isLoggedIn(state) {
       return state.authstatus.isLoggedIn;
+    },
+    getUser(state) {
+      return state.user;
     },
   },
 });
