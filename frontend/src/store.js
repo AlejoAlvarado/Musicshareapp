@@ -76,6 +76,7 @@ export default new Vuex.Store({
       state.authstatus.isLoggedIn = true;
       console.log(data.user[0]);
       state.user = data.user[0];
+      state.token = JSON.parse(localStorage.getItem("user"));
     },
     loginFailure(state) {
       state.authstatus.isLoggedIn = false;
@@ -84,6 +85,7 @@ export default new Vuex.Store({
     logout(state) {
       state.authstatus.isLoggedIn = false;
       state.user = "";
+      state.token = null;
     },
     checkIfLogged(state) {
       let token = JSON.parse(localStorage.getItem("user"));
