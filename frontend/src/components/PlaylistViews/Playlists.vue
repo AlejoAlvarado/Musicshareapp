@@ -18,14 +18,13 @@
       </v-row>
     </div>
     <div>
-
       <v-toolbar @click="showSharedPlaylists = !showSharedPlaylists">
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
         <v-toolbar-title> Playlists shared with me </v-toolbar-title>
       </v-toolbar>
       <v-row v-if="showSharedPlaylists" dense>
         <v-col
-          v-for="(playlist, i) in playlists"
+          v-for="(playlist, i) in playlistsSharedWithMe"
           :key="i"
           cols="12"
           md="6"
@@ -46,15 +45,24 @@ export default {
   components: { PlaylistCard },
   data: () => ({
     playlists: [],
+    playlistsSharedWithMe: [],
     showMyPlaylists: true,
     showSharedPlaylists: true,
   }),
 
   created() {
-    axios.get("/playlists").then((res) => {
-      this.playlists = res.data;
-      console.log(this.playlists);
-    });
+    axios
+      .get("playlists/my/Playlists", {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        const userWithPlaylists = res.data;
+        this.playlists = userWithPlaylists.playlists;
+        this.playlistsSharedWithMe = userWithPlaylists.sharedWithMe;
+        console.log(this.playlists);
+      });
   },
 };
 </script>
