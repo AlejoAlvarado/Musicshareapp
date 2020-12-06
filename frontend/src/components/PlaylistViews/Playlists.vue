@@ -22,7 +22,7 @@
           md="6"
           lg="4"
         >
-          <playlist-card :playlist="playlist" :editable="true" />
+          <playlist-card :playlist="playlist" :users="usersF" :editable="true" />
         </v-col>
       </v-row>
     </div>
@@ -39,7 +39,7 @@
           md="6"
           lg="4"
         >
-          <playlist-card :playlist="playlist" :editable="true" />
+          <SharedPlaylistCard :playlist="playlist"/>
         </v-col>
       </v-row>
     </div>
@@ -71,9 +71,10 @@
 <script>
 import axios from "../../config/axios";
 import PlaylistCard from "./PlaylistCard.vue";
+import SharedPlaylistCard from "./SharedPlaylistCard.vue";
 
 export default {
-  components: { PlaylistCard },
+  components: { PlaylistCard, SharedPlaylistCard },
   data(){
     return {
         playlists: [],
@@ -82,6 +83,7 @@ export default {
         showSharedPlaylists: true,
         playlist_add_dialog: false,
         playlist_title:'',
+        usersF:[],
     }
   },
   methods:{
@@ -120,8 +122,11 @@ export default {
         });
     }
   },
-  created() {
+  mounted() {
     this.reset_playlists();
+    axios.get("/users").then((res)=>{
+      this.usersF=res.data;
+    })
   },
 };
 </script>

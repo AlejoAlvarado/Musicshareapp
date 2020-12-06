@@ -28,6 +28,7 @@ exports.search_my_playlists = function(req, res, next){
     if (err) {
       return next(err);
     } else {
+      console.log(owner);
       res.send(owner);
     }
   })

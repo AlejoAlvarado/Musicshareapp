@@ -128,3 +128,13 @@ exports.delete = function (req, res, next) {
     res.send("User eliminated succesfully");
   });
 };
+
+exports.add_shared_playlist_to_user = function(req,res,next){
+  console.log(req.body);
+  console.log(req.query);
+  User.findByIdAndUpdate(req.query.id,{$push:{sharedWithMe:req.body._id}},(err,user)=>{
+    if(err) return next(err);
+    console.log(user);
+    res.send("playlist Shared Succesfully");
+  })
+}

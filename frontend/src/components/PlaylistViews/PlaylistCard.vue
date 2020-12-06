@@ -22,6 +22,9 @@
               mdi-cancel
             </v-icon>
           </v-btn>
+          <v-btn @click="open_share_dialog" class="ml-2 mt-5" outlined rounded small color="blue">
+            SHARE
+          </v-btn>
         </v-card-actions>
       </div>
 
@@ -46,6 +49,34 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="share_dialog" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          Choose user to share playlist with
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-item 
+            v-for="(user,i) in users"
+            :key="i"
+          >
+            <v-list-item-title>
+              {{user.name}}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{user.email}}
+            </v-list-item-subtitle>
+            <v-list-item-action>
+              <v-btn icon @click="share_with_user(user)">
+                <v-icon color="primary">
+                  mdi-share-variant
+                </v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -61,10 +92,14 @@ export default {
     editable: {
       type: Boolean,
     },
+    users:{
+      type: Array,
+    }
   },
   data(){
     return {
-      delete_dialog:false
+      delete_dialog:false,
+      share_dialog:false
     }
   },
   methods:{
@@ -84,6 +119,16 @@ export default {
         console.log(res);
         this.$parent.reset_playlists()
       })
+    },
+    open_share_dialog(){
+      this.share_dialog=true;
+    },
+    share_with_user(user){
+      axios.put("/users/add-shared-playlist?id="+user._id,this.playlist).then((res)=>{
+        console.log(res);
+        this.share_dialog=false;
+        alert("¡shared with! "+ user.name)
+      });
     }
   }
 };
