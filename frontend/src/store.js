@@ -62,6 +62,7 @@ export default new Vuex.Store({
   mutations: {
     addSongToMusicPlaylist(state, newSong) {
       state.musicPlaylist.push({
+        _id:newSong._id,
         title: newSong.title,
         artist: newSong.artists,
         url: newSong.songUrl,
@@ -79,6 +80,7 @@ export default new Vuex.Store({
       for(i=0;i<data.user[0].songs.length;i++){
         let newSong=data.user[0].songs[i];
         state.musicPlaylist.push({
+          _id:newSong._id,
           title: newSong.title,
           artist: newSong.artists,
           url: newSong.songUrl,

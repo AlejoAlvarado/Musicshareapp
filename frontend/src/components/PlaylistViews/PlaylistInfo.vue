@@ -6,6 +6,61 @@
       </v-col>
     </v-row>
     <song-list :songs="songs"/>
+    <v-btn
+      to="/playlists"
+      dark
+    >
+      Close playlist
+    </v-btn>
+    <v-btn
+      @click="open_songs_dialog"
+      dark
+    >
+      Add song
+    </v-btn>
+    <v-overlay
+      v-model="songs_dialog"
+    >
+      <v-card
+        v-click-outside="onClickOutside"
+        class="pa-5"
+        width="500"
+      >
+        <v-virtual-scroll
+          :bench="benched"
+          :items="musicPlayList"
+          height="124"
+          item-height="64"
+        >
+          <template v-slot:default="{ item }">
+            <v-list-item :key="item._id">
+
+              <v-list-item-content>
+                <v-list-item-title>
+                  <strong class="white--text"> {{ item.title }}</strong>
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-btn
+                  icon
+                  @click="add_song_to_playlist(item)"
+                >
+                  <v-icon 
+                    small
+                    color="white"
+                  >
+                    mdi-circle
+                  </v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+
+            <v-divider></v-divider>
+          </template>
+        </v-virtual-scroll>
+      </v-card>
+    </v-overlay>
   </div>
 </template>
 <script>
@@ -16,6 +71,8 @@ import SongList from "./SongsList.vue";
 export default {
   components: { PlaylistCard, SongList },
   data: () => ({
+    benched:0,
+    songs_dialog:false,
     playlist: {},
     songs: [
             {
@@ -23,33 +80,47 @@ export default {
                 artist: "Daniel Simion",
                 url: "https://soundbible.com/mp3/service-bell_daniel_simion.mp3",
                 image: "https://source.unsplash.com/crs2vlkSe98/400x400"
-            },
-            {
-                title: "Meadowlark",
-                artist: "Daniel Simion",
-                url: "https://soundbible.com/mp3/meadowlark_daniel-simion.mp3",
-                image: "https://source.unsplash.com/35bE_njbG9E/400x400"
-            },
-            {
-                title: "Hyena Laughing",
-                artist: "Daniel Simion",
-                url: "https://soundbible.com/mp3/hyena-laugh_daniel-simion.mp3",
-                image: "https://source.unsplash.com/Esax9RaEl2I/400x400"
-            },
-            {
-                title: "Creepy Background",
-                artist: "Daniel Simion",
-                url: "http://soundbible.com/mp3/creepy-background-daniel_simon.mp3",
-                image: "https://source.unsplash.com/j0g8taxHZa0/400x400"
             }
         ]
   }),
+  computed:{
+    musicPlayList(){
+        return this.$store.state.musicPlaylist;
+    },
+  },
+  methods:{
+    onClickOutside(){
+      this.songs_dialog=false;
+    },
+    open_songs_dialog(){
+      this.songs_dialog=true;
+    },
+    add_song_to_playlist(song){
+      axios.put("/playlists/playlist-song?id="+this.$route.params.id,song).then((res)=>{
+        console.log(res);
+        this.reset_songs();
+      })
+    },
+    reset_songs(){
+      const playlistId = this.$route.params.id;
+      axios.get("/playlists/" + playlistId).then((res) => {
+        this.playlist = res.data;
+        this.songs=[];
+        let i=0;
+        for(i=0;i<this.playlist.songs.length;i++){
+          this.songs.push({
+            image:this.playlist.songs[i].imageUrl,
+            title:this.playlist.songs[i].title,
+            url:this.playlist.songs[i].songUrl,
+            artist:this.playlist.songs[i].artist
+          })
+        }
+        console.log(this.playlist);
+      });
+    }
+  },
   created() {
-    const playlistId = this.$route.params.id;
-    axios.get("/playlists/" + playlistId).then((res) => {
-      this.playlist = res.data;
-      console.log(this.playlist);
-    });
+    this.reset_songs();
   },
 };
 </script>
