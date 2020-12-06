@@ -1,5 +1,6 @@
 const Playlist = require("../models/playlists");
 const User = require("../models/users");
+const mongoose = require('mongoose')
 
 exports.index = function (req, res, next) {
   Playlist.find({}, (err, playlists) => {
@@ -36,23 +37,24 @@ exports.create = function (req, res, next) {
   let playlist = new Playlist({
     title: req.body.title,
     cover: req.body.cover,
-    owner: req.body.ownerid,
+    owner: mongoose.Types.ObjectId(req.body.owner),
   });
-
-  playlist.save((err) => {
+  playlist.save((err,new_playlist) => {
     if (err) {
       return next(err);
     } else {
-      res.send("Playlist guardada exitosamente");
+      User.findByIdAndUpdate({_id: new_playlist.owner},{$push:{playlists: new_playlist}},(err)=>{
+        if(err) return next(err);
+        res.send("Playlist guardada exitosamente");
+      })
     }
   });
 };
 
 exports.search = function(req, res, next) {
-    Playlist.findById(req.params.id, (err, playlist) => {
-        if (err)
-            return next(err)
-        res.send(playlist)
+    Playlist.findById(req.params.id,(err,playlist)=>{
+      if (err) return next(err)
+      res.send(playlist)
     })
 }
 
@@ -71,4 +73,12 @@ exports.delete = function(req, res, next) {
             return next(err)
         res.send("Playlist eliminated succesfully")
     })
+}
+
+exports.add_song_to_playlist = function(req,res,next){
+  console.log(req.body)
+  Playlist.findByIdAndUpdate({ _id: req.query.id},{$push:{songs:req.body}},(err,playlist)=>{
+    if(err) console.log(err)
+    res.send("Song added succesfully to playlist")
+  });
 }

@@ -8,12 +8,10 @@
       <v-btn class="white--text mr-2" to="/" color="red" @click="logoutUser"
         >Logout</v-btn
       >
-      <v-btn class="white--text mr-2" to="/" color="blue">Friends</v-btn>
       <v-btn class="white--text mr-2" to="/upload" color="blue">Upload</v-btn>
       <v-btn class="white--text mr-2" to="/playlists" color="blue"
         >Library</v-btn
       >
-      <v-btn class="white--text mr-2" to="/" color="blue">Help</v-btn>
       <v-btn to="/signup" icon>
         <v-icon color="white">mdi-account-circle-outline</v-icon>
       </v-btn>
