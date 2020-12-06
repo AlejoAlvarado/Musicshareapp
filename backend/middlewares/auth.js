@@ -1,4 +1,6 @@
 const services = require("../services/index");
+const jwt = require("jwt-simple");
+const User = require("../models/users");
 
 function isAuth(req, res, next) {
   if (!req.headers.authorization) {
@@ -20,6 +22,8 @@ function isAuth(req, res, next) {
 }
 
 function authRole(role) {
+  //const token = req.headers.authorization.split(" ")[1];
+  //const payload = jwt.decode(token, config.SECRET_TOKEN);
   return (req, res, next) => {
     if (req.body.role !== role && req.body.role !== "SUPERADMIN") {
       return res.status(401).send({ message: "User not authorized" });

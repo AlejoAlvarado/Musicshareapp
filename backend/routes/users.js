@@ -47,7 +47,12 @@ const upload = multer({
 router.get("/", users_controller.index);
 router.post("/", users_controller.create);
 router.put("/:id", isAuth, users_controller.update);
-router.delete("/:id", authRole(ROLES.SUPERADMIN), users_controller.delete);
+router.delete(
+  "/:id",
+  isAuth,
+  authRole(ROLES.SUPERADMIN),
+  users_controller.delete
+);
 router.get("/:id", users_controller.search);
 router.post("/signin", users_controller.signinUser);
 router.post("/user-song", function (req, res) {
