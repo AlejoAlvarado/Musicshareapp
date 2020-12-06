@@ -1,4 +1,5 @@
 const User = require("../models/users");
+const Playlist = require("../models/playlists");
 const service = require("../services");
 
 const ROLES = {
@@ -130,11 +131,13 @@ exports.delete = function (req, res, next) {
 };
 
 exports.add_shared_playlist_to_user = function(req,res,next){
-  console.log(req.body);
-  console.log(req.query);
   User.findByIdAndUpdate(req.query.id,{$push:{sharedWithMe:req.body._id}},(err,user)=>{
     if(err) return next(err);
-    console.log(user);
-    res.send("playlist Shared Succesfully");
+    Playlist.findByIdAndUpdate(req.body._id,{$push:{sharedWith:req.query.id}},(err,playlist)=>{
+      if(err) return next(err);
+      console.log(user);
+      console.log(playlist);
+      res.send("playlist Shared Succesfully");
+    })
   })
 }
