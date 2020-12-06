@@ -9,6 +9,7 @@ function createToken(user) {
     sub: user[0]._id,
     iat: moment().unix(),
     exp: moment().add(30, "minutes").unix(),
+    role: user[0].role
   };
 
   console.log(payload);
@@ -32,7 +33,7 @@ function decodeToken(token) {
         });
       }
       console.log("token resolved");
-      resolve(payload.sub);
+      resolve(payload);
     } catch (err) {
       console.log("token rejected2");
       reject({
