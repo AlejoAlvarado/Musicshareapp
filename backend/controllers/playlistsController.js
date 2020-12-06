@@ -76,9 +76,15 @@ exports.delete = function(req, res, next) {
 }
 
 exports.add_song_to_playlist = function(req,res,next){
-  console.log(req.body)
   Playlist.findByIdAndUpdate({ _id: req.query.id},{$push:{songs:req.body}},(err,playlist)=>{
-    if(err) console.log(err)
+    if(err) next(err)
     res.send("Song added succesfully to playlist")
+  });
+}
+
+exports.delete_playlist_song = function(req,res,next){
+  Playlist.findByIdAndUpdate({_id: req.query.id},{$pull:{songs:{_id:req.body._id}}},(err,playlist)=>{
+    if(err) next(err)
+    res.send("Song deleted succesfully")
   });
 }

@@ -5,7 +5,7 @@
         <playlist-card :playlist="playlist" />
       </v-col>
     </v-row>
-    <song-list :songs="songs"/>
+    <song-list :songs="songs" :playlist_id="playlist_id"/>
     <v-btn
       to="/playlists"
       dark
@@ -87,6 +87,9 @@ export default {
     musicPlayList(){
         return this.$store.state.musicPlaylist;
     },
+    playlist_id(){
+      return this.$route.params.id;
+    }
   },
   methods:{
     onClickOutside(){
@@ -109,9 +112,10 @@ export default {
         let i=0;
         for(i=0;i<this.playlist.songs.length;i++){
           this.songs.push({
-            image:this.playlist.songs[i].imageUrl,
+            _id:this.playlist.songs[i]._id,
+            image:this.playlist.songs[i].image,
             title:this.playlist.songs[i].title,
-            url:this.playlist.songs[i].songUrl,
+            url:this.playlist.songs[i].url,
             artist:this.playlist.songs[i].artist
           })
         }

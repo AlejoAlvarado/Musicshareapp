@@ -10,6 +10,7 @@ router.get("/", playlists_controller.index);
 router.post("/", playlists_controller.create);
 router.put("/", playlists_controller.update);
 router.put("/playlist-song",playlists_controller.add_song_to_playlist);
+router.put("/playlist-delete-song",playlists_controller.delete_playlist_song);
 router.delete("/:id", playlists_controller.delete);
 
 module.exports = router;

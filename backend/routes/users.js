@@ -16,10 +16,7 @@ const ROLES = {
 
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
-/*aws.config.update({
-    accessKeyId: "",
-    secretAccessKey: ""
-})*/
+
 
 var storage = multerS3({
   acl: "public-read",

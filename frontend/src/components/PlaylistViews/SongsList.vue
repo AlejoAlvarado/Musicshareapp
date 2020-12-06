@@ -5,6 +5,7 @@
         <th>Cover</th>
         <th>Title</th>
         <th>Artist</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -14,18 +15,32 @@
         </td>
         <td>{{ song.title }}</td>
         <td>{{ song.artist }}</td>
+        <td><v-btn @click="delete_playlist_song(song)">Delete</v-btn></td>
       </tr>
     </tbody>
   </v-simple-table>
 </template>
 
 <script>
+import axios from "../../config/axios";
 export default {
   props: {
     songs: {
       type: Array,
     },
+    playlist_id:{
+      type: String,
+    }
   },
+  methods:{
+    delete_playlist_song(song){
+      console.log(song._id)
+      axios.put("/playlists/playlist-delete-song?id="+this.playlist_id,song).then((res)=>{
+        console.log(res);
+        this.$parent.reset_songs();
+      })
+    }
+  }
 };
 </script>
 
