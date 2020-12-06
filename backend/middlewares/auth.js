@@ -22,12 +22,12 @@ function isAuth(req, res, next) {
     });
 }
 
-function authRole(role) {
+function authRole(roles) {
   //const token = req.headers.authorization.split(" ")[1];
   //const payload = jwt.decode(token, config.SECRET_TOKEN);
   return (req, res, next) => {
     console.log("Role is " + req.role);
-    if (req.role !== role && req.role !== "SUPERADMIN") {
+    if (!roles.includes(req.role)) {
       return res.status(401).send({ message: "User not authorized" });
     }
     next();
