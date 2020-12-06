@@ -18,6 +18,9 @@
         style="width:50%"
         class="d-flex column-flex"
     >
+        <v-card-actions>
+            <v-btn @click="reset_user_musicplaylist">Reset song list</v-btn>
+        </v-card-actions>
         <v-virtual-scroll
           :bench="benched"
           :items="musicPlayList"
@@ -78,6 +81,9 @@ export default {
       setCurrentSong(item){
         let index=this.$store.state.musicPlaylist.indexOf(item);
         this.$refs.audioPlayer.changeSong(index);
+      },
+      reset_user_musicplaylist(){
+        this.$store.commit("setUserMusicplaylist",this.$store.state.user);
       }
     }
 }

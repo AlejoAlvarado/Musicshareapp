@@ -28,6 +28,7 @@ export default new Vuex.Store({
       return AuthService.login(user).then(
         (res) => {
           commit("loginSuccess", res);
+          commit("setUserMusicplaylist",res.user[0]);
           return Promise.resolve(res);
         },
         (error) => {
@@ -42,7 +43,6 @@ export default new Vuex.Store({
       commit("logout");
       commit("restartPlaylist");
     },
-
     checkIfLogged({ commit }) {
       commit("checkIfLogged");
     },
@@ -57,7 +57,7 @@ export default new Vuex.Store({
           console.log("Hubo un error actualizando al usuario");
         }
       });
-    },
+    }
   },
   mutations: {
     addSongToMusicPlaylist(state, newSong) {
@@ -69,16 +69,17 @@ export default new Vuex.Store({
         image: newSong.imageUrl,
       });
     },
-
     loginSuccess(state, data) {
       state.authstatus.isLoggedIn = true;
       console.log(data.user[0]);
       state.user = data.user[0];
       state.token = JSON.parse(localStorage.getItem("user"));
+    },
+    setUserMusicplaylist(state,user){
       state.musicPlaylist = [];
       let i=0;
-      for(i=0;i<data.user[0].songs.length;i++){
-        let newSong=data.user[0].songs[i];
+      for(i=0;i<user.songs.length;i++){
+        let newSong=user.songs[i];
         state.musicPlaylist.push({
           _id:newSong._id,
           title: newSong.title,
@@ -87,6 +88,9 @@ export default new Vuex.Store({
           image: newSong.imageUrl,
         });
       }
+    },
+    setMusicplaylist(state,newSongs){
+      state.musicPlaylist=newSongs;
     },
     loginFailure(state) {
       state.authstatus.isLoggedIn = false;
