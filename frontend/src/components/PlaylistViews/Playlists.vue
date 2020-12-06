@@ -103,6 +103,7 @@ export default {
       axios.post("/playlists",newPlaylist).then((res)=>{
         console.log(res);
         this.reset_playlists();
+        this.playlist_add_dialog=false;
       })
     },
     reset_playlists(){

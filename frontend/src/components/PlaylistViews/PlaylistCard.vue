@@ -71,6 +71,7 @@ export default {
     reproduce_playlist(){
       console.log(this.playlist.songs)
       this.$store.commit("setMusicplaylist",this.playlist.songs);
+      this.$root.$emit('AudioPlayer')
     },
     delete_playlist_dialog(){
       this.delete_dialog=true;

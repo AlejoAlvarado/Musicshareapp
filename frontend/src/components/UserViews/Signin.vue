@@ -71,8 +71,8 @@ export default {
       this.login(this.user).then(
         () => {
           this.loginMessage = "You have succesfully signed in!";
-
           this.dialog = true;
+          this.$root.$emit('AudioPlayer')
         },
         (error) => {
           this.loginMessage = "Incorrect email and/or password.";

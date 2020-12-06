@@ -63,6 +63,9 @@ export default {
 	mounted(){
 		this.changeSong();
 		this.audio.loop = false;
+		this.$root.$on('AudioPlayer', () => {
+            this.changeSong(0);
+        });
 	},
 	filters: {
 		fancyTimeFormat: function(s) {

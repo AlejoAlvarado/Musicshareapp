@@ -68,6 +68,13 @@ export default new Vuex.Store({
         url: newSong.songUrl,
         image: newSong.imageUrl,
       });
+      state.user.songs.push({
+        _id:newSong._id,
+        title: newSong.title,
+        artist: newSong.artists,
+        url: newSong.songUrl,
+        image: newSong.imageUrl,
+      })
     },
     loginSuccess(state, data) {
       state.authstatus.isLoggedIn = true;
