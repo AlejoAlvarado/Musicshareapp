@@ -1,12 +1,18 @@
 var express = require("express");
 var router = express.Router();
 var users_controller = require("../controllers/usersController");
-
 var path = require("path");
+
 const aws = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const s3 = new aws.S3();
+const { isAuth, authRole } = require("../middlewares/auth");
+const ROLES = {
+  BASIC: "BASIC",
+  ADMIN: "ADMIN",
+  SUPERADMIN: "SUPERADMIN",
+};
 
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
@@ -40,8 +46,8 @@ const upload = multer({
 /* GET users listing. */
 router.get("/", users_controller.index);
 router.post("/", users_controller.create);
-router.put("/:id", users_controller.update);
-router.delete("/:id", users_controller.delete);
+router.put("/:id", isAuth, users_controller.update);
+router.delete("/:id", authRole(ROLES.SUPERADMIN), users_controller.delete);
 router.get("/:id", users_controller.search);
 router.post("/signin", users_controller.signinUser);
 router.post("/user-song", function (req, res) {

@@ -2,7 +2,7 @@ const services = require("../services/index");
 
 function isAuth(req, res, next) {
   if (!req.headers.authorization) {
-    return res.status(403).send({ message: "No esta autorizado" });
+    return res.status(403).send({ message: "Not authorized" });
   }
   const token = req.headers.authorization.split(" ")[1];
 
@@ -13,8 +13,22 @@ function isAuth(req, res, next) {
       next();
     })
     .catch((response) => {
-      res.status(response.status);
+      console.log("error happened");
+      console.log(response.status);
+      res.status(response.status).send({ message: "An error happened" });
     });
 }
 
-module.exports = isAuth;
+function authRole(role) {
+  return (req, res, next) => {
+    if (req.body.role !== role && req.body.role !== "SUPERADMIN") {
+      return res.status(401).send({ message: "User not authorized" });
+    }
+    next();
+  };
+}
+
+module.exports = {
+  isAuth,
+  authRole,
+};

@@ -1,6 +1,12 @@
 const User = require("../models/users");
 const service = require("../services");
 
+const ROLES = {
+  ADMIN: "ADMIN",
+  BASIC: "BASIC",
+  SUPERADMIN: "SUPERADMIN",
+};
+
 var bcrypt = require("bcryptjs");
 
 exports.add_song_to_user = function (req, res) {
@@ -10,14 +16,18 @@ exports.add_song_to_user = function (req, res) {
       artists: "ME",
       songUrl: req.file.location,
       imageUrl: "NONE",
-    }
-    User.findByIdAndUpdate({ _id: req.query.id},{$push: {songs:songData}},(err) => {
-      if (err) console.log(err)
-      res.status(200).send({
-        message: "Added the song successfully: ",
-        songData: songData,
-      });
-    });
+    };
+    User.findByIdAndUpdate(
+      { _id: req.query.id },
+      { $push: { songs: songData } },
+      (err) => {
+        if (err) console.log(err);
+        res.status(200).send({
+          message: "Added the song successfully: ",
+          songData: songData,
+        });
+      }
+    );
   } catch (err) {
     console.log(err);
     res.status(500).send({
@@ -51,6 +61,8 @@ exports.create = function (req, res, next) {
         //photo: req.body.photo,
         //state: req.body.state,
         email: req.body.email,
+        role: ROLES.BASIC,
+        active: true,
       });
 
       user.save((err) => {
