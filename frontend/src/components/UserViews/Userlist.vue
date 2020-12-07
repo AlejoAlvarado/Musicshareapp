@@ -16,51 +16,93 @@
                   </v-col>
 
                   <v-col class="btnitems">
-                    <v-btn
-                      @click="editUser(i)"
-                      class="mx-2"
-                      fab
-                      dark
-                      small
-                      color="primary"
-                    >
-                      <v-icon dark>
-                        mdi-pencil
-                      </v-icon>
-                    </v-btn>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="editUser(i)"
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-pencil
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Edit user</span>
+                    </v-tooltip>
                   </v-col>
 
                   <v-col class="btnitems">
-                    <v-btn
-                      @click="
-                        infoDependy(i);
-                        searchUserDepen(selectedDepen.name);
-                      "
-                      class="mx-2"
-                      fab
-                      dark
-                      small
-                      color="primary"
-                    >
-                      <v-icon dark>
-                        mdi-eye
-                      </v-icon>
-                    </v-btn>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="
+                            infoDependy(i);
+                            searchUserDepen(selectedDepen.name);
+                          "
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          color="primary"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-eye
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Generate report</span>
+                    </v-tooltip>
                   </v-col>
 
                   <v-col class="btnitems">
-                    <v-btn
-                      class="mx-2"
-                      fab
-                      dark
-                      small
-                      color="primary"
-                      @click="deleteDependency(i)"
-                    >
-                      <v-icon dark>
-                        mdi-delete
-                      </v-icon>
-                    </v-btn>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          color="green"
+                          @click="deleteDependency(i)"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-folder
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>View musiclist</span>
+                    </v-tooltip>
+                  </v-col>
+
+                  <v-col class="btnitems">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="editUser(i)"
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          color="red"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-gavel
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Ban user</span>
+                    </v-tooltip>
                   </v-col>
                 </v-row>
               </v-list-item-content>
