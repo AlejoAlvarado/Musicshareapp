@@ -47,10 +47,9 @@ router.get(
   users_controller.index
 );
 router.post("/", users_controller.create);
-router.put(
-  "/add-shared-playlist",
-  users_controller.add_shared_playlist_to_user
-);
+
+router.put("/add-shared-playlist", isAuth, users_controller.add_shared_playlist_to_user);
+router.put("/remove-shared-playlist", isAuth, users_controller.stop_sharing_playlist_with_user);
 router.put("/:id", isAuth, users_controller.update);
 router.delete(
   "/:id",

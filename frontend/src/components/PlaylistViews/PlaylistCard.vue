@@ -4,25 +4,49 @@
       <div>
         <v-card-title class="headline" v-text="playlist.title"></v-card-title>
 
-        <v-card-subtitle v-text="'By: ' + playlist.owner"></v-card-subtitle>
+        <v-card-subtitle v-text="'By: ' + playlist.owner.username"></v-card-subtitle>
 
         <v-card-actions v-if="editable">
-          <v-btn icon class="ml-2 mt-5" outlined rounded small :to="'/playlists/' + playlist._id" color="blue">
-            <v-icon>
-              mdi-circle
-            </v-icon>
+          <v-btn
+            icon
+            class="ml-2 mt-5"
+            outlined
+            rounded
+            small
+            :to="'/playlists/' + playlist._id"
+            color="blue"
+          >
+            <v-icon> mdi-circle </v-icon>
           </v-btn>
-          <v-btn icon @click="reproduce_playlist" class="ml-2 mt-5" outlined rounded small>
-            <v-icon>
-              mdi-play
-            </v-icon>
+          <v-btn
+            icon
+            @click="reproduce_playlist"
+            class="ml-2 mt-5"
+            outlined
+            rounded
+            small
+          >
+            <v-icon> mdi-play </v-icon>
           </v-btn>
-          <v-btn icon @click="delete_playlist_dialog" class="ml-2 mt-5" outlined rounded small color="red">
-            <v-icon>
-              mdi-cancel
-            </v-icon>
+          <v-btn
+            icon
+            @click="delete_playlist_dialog"
+            class="ml-2 mt-5"
+            outlined
+            rounded
+            small
+            color="red"
+          >
+            <v-icon> mdi-cancel </v-icon>
           </v-btn>
-          <v-btn @click="open_share_dialog" class="ml-2 mt-5" outlined rounded small color="blue">
+          <v-btn
+            @click="open_share_dialog"
+            class="ml-2 mt-5"
+            outlined
+            rounded
+            small
+            color="blue"
+          >
             SHARE
           </v-btn>
         </v-card-actions>
@@ -40,12 +64,8 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" text @click="delete_playlist">
-            OK
-          </v-btn>
-          <v-btn color="red" text @click="close_delete_dialog">
-            NO!
-          </v-btn>
+          <v-btn color="red" text @click="delete_playlist"> OK </v-btn>
+          <v-btn color="red" text @click="close_delete_dialog"> NO! </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -56,21 +76,16 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-list>
-          <v-list-item 
-            v-for="(user,i) in users"
-            :key="i"
-          >
+          <v-list-item v-for="(user, i) in users" :key="i">
             <v-list-item-title>
-              {{user.name}}
+              {{ user.name }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{user.email}}
+              {{ user.email }}
             </v-list-item-subtitle>
             <v-list-item-action>
               <v-btn icon @click="share_with_user(user)">
-                <v-icon color="primary">
-                  mdi-share-variant
-                </v-icon>
+                <v-icon color="primary"> mdi-share-variant </v-icon>
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -81,7 +96,6 @@
 </template>
 
 <script>
-
 import axios from "../../config/axios";
 
 export default {
@@ -92,44 +106,51 @@ export default {
     editable: {
       type: Boolean,
     },
-    users:{
+    users: {
       type: Array,
-    }
+    },
   },
-  data(){
+  data() {
     return {
-      delete_dialog:false,
-      share_dialog:false
-    }
+      delete_dialog: false,
+      share_dialog: false,
+    };
   },
-  methods:{
-    reproduce_playlist(){
-      console.log(this.playlist.songs)
-      this.$store.commit("setMusicplaylist",this.playlist.songs);
-      this.$root.$emit('AudioPlayer')
+  methods: {
+    reproduce_playlist() {
+      console.log(this.playlist.songs);
+      this.$store.commit("setMusicplaylist", this.playlist.songs);
+      this.$root.$emit("AudioPlayer");
     },
-    delete_playlist_dialog(){
-      this.delete_dialog=true;
+    delete_playlist_dialog() {
+      this.delete_dialog = true;
     },
-    close_delete_dialog(){
-      this.delete_dialog=false;
+    close_delete_dialog() {
+      this.delete_dialog = false;
     },
-    delete_playlist(){
-      axios.delete("/playlists/"+this.playlist._id).then((res)=>{
+    delete_playlist() {
+      axios.delete("/playlists/" + this.playlist._id).then((res) => {
         console.log(res);
-        this.$parent.reset_playlists()
-      })
-    },
-    open_share_dialog(){
-      this.share_dialog=true;
-    },
-    share_with_user(user){
-      axios.put("/users/add-shared-playlist?id="+user._id,this.playlist).then((res)=>{
-        console.log(res);
-        this.share_dialog=false;
-        alert("¡shared with! "+ user.name)
+        this.$parent.reset_playlists();
       });
-    }
-  }
+    },
+    open_share_dialog() {
+      this.share_dialog = true;
+    },
+    share_with_user(user) {
+      axios
+        .put("/users/add-shared-playlist?id=" + user._id, this.playlist, {
+          headers: {
+            authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).token,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          this.share_dialog = false;
+          alert("¡shared with! " + user.name);
+        });
+    },
+  },
 };
 </script>
