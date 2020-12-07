@@ -12,9 +12,9 @@ export default new Vuex.Store({
     user: "",
     musicPlaylist: [
       {
-        title: "Service Bell",
-        artist: "Daniel Simion",
-        url: "https://soundbible.com/mp3/service-bell_daniel_simion.mp3",
+        title: "Another Love",
+        artist: "Tom Odell",
+        url: "https://songs-bucket-adv-web.s3.amazonaws.com/dd66d01667f8d16932a6fca4aa71572b",
         image: "https://source.unsplash.com/crs2vlkSe98/400x400",
       },
     ],
@@ -145,11 +145,11 @@ export default new Vuex.Store({
     restartPlaylist(state) {
       state.musicPlaylist = [];
       state.musicPlaylist.push({
-        title: "Service Bell",
-        artist: "Daniel Simion",
-        url: "https://soundbible.com/mp3/service-bell_daniel_simion.mp3",
+        title: "Another Love",
+        artist: "Tom Odell",
+        url: "https://songs-bucket-adv-web.s3.amazonaws.com/dd66d01667f8d16932a6fca4aa71572b",
         image: "https://source.unsplash.com/crs2vlkSe98/400x400",
-      });
+      },);
     },
     setCurrentSong(state, newValue) {
       state.currentSong = newValue;
