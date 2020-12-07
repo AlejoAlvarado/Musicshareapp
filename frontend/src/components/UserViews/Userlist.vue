@@ -74,7 +74,7 @@
 
 <script>
 import { mapActions } from "vuex";
-
+//import axios from "../../config/axios";
 export default {
   data() {
     return {
@@ -86,6 +86,12 @@ export default {
   },
   computed: {},
   created() {
+    /*const token = localStorage.getItem("user");
+    console.log(token);
+    if (token) {
+      axios.defaults.headers.common.authorization = JSON.parse(token).token;
+      console.log(axios.defaults.headers.common["authorization"]);
+    }*/
     this.getUsers();
   },
   methods: {

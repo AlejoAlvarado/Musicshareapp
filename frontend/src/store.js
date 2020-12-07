@@ -62,12 +62,7 @@ export default new Vuex.Store({
     obtainUsers({ commit }) {
       return (
         axios
-          .get("/users/", {
-            headers: {
-              authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("user")).token,
-            },
-          })
+          .get("/users/")
           //.then(handleResponse)
           .then((users) => {
             commit("obtainUsers", users.data);
