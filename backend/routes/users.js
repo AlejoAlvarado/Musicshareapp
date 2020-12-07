@@ -17,6 +17,7 @@ const ROLES = {
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
 
+
 var storage = multerS3({
   acl: "public-read",
   s3,
