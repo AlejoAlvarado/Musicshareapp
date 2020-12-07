@@ -1,6 +1,7 @@
 <template>
   <v-footer
     padless
+    color="#0070a8"
   >
     <v-card
         color="#0070a8"

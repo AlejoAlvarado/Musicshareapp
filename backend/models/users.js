@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const { bool } = require("sharp");
 const Schema = mongoose.Schema;
 
+/**
+ * Scheme to model songs
+ */
 let SongSchema = Schema({
   title: { type: String, required: true, max: 100 },
   artist: { type: String, required: true, max: 100 },
@@ -9,6 +12,9 @@ let SongSchema = Schema({
   imageUrl: { type: String, required: true },
 });
 
+/**
+ * Scheme to model users
+ */
 let UserSchema = Schema({
   name: { type: String, required: false, max: 100 },
   username: { type: String, require: true },

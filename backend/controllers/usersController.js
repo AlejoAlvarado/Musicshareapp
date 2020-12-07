@@ -10,6 +10,12 @@ const ROLES = {
 
 var bcrypt = require("bcryptjs");
 
+/**
+ * Function that adds a single song to the user
+ * Returns the added song
+ *
+ * @param {*} req.file Song to be added to the user
+ */
 exports.add_song_to_user = function (req, res) {
   try {
     let songTitle = "";
@@ -20,7 +26,7 @@ exports.add_song_to_user = function (req, res) {
     }
     var songData = {
       title: songTitle,
-      artists: "ME",
+      artists: "NONE",
       songUrl: req.file.location,
       imageUrl: "NONE",
     };
@@ -53,12 +59,18 @@ exports.index = function (req, res, next) {
   });
 };
 
+/**
+ * Function that registers new users into the application
+ * Returns status message
+ *
+ * @param {*} req.body contains user information
+ */
 exports.create = function (req, res, next) {
   User.find({ email: req.body.email }, (err, users) => {
     if (users.length > 0) {
       return res
         .status(400)
-        .send({ message: "Un usuario con este email ya existe" });
+        .send({ message: "An user with that email already exists" });
     } else {
       let user = new User({
         name: req.body.name,
@@ -75,12 +87,12 @@ exports.create = function (req, res, next) {
       user.save((err) => {
         if (err) {
           res.status(500).send({
-            message: `Error al crear el usuario: ${err}`,
+            message: `Error creating user: ${err}`,
             message2: err,
           });
         } else {
           return res.status(200).send({
-            message: "User guardado exitosamente",
+            message: "User saved successfully",
           });
         }
       });
@@ -88,11 +100,17 @@ exports.create = function (req, res, next) {
   });
 };
 
+/**
+ * Logs the user
+ * Returns token and user information
+ *
+ * @param {*} req.body contains user credentials (email, password)
+ */
 exports.signinUser = function (req, res, next) {
   User.find({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).send({ message: err });
     if (user.length < 1)
-      return res.status(400).send({ message: "User no encontrado" });
+      return res.status(400).send({ message: "User not found" });
     console.log(req.body.email);
     let equalPass =
       bcrypt.compareSync(req.body.password, user[0].password) ||
@@ -101,13 +119,13 @@ exports.signinUser = function (req, res, next) {
     if (equalPass) {
       req.user = user;
       return res.status(200).send({
-        message: "User logeado exitosamente!",
+        message: "User signed in successfully!",
         token: service.createToken(user),
         user: user,
       });
     } else {
-      console.log("mala contraseña");
-      return res.status(400).send({ message: "La contraseña es incorrecta" });
+      console.log("Bad password");
+      return res.status(400).send({ message: "The password is incorrect" });
     }
   });
 };
@@ -137,6 +155,13 @@ exports.delete = function (req, res, next) {
   });
 };
 
+/**
+ * Shares a playlist to a user
+ * Returns estatus message
+ *
+ * @param {*} req.body Is the playlist that is shared with the user
+ * @param {*} req.query.id The user that the playlists is being shared with
+ */
 exports.add_shared_playlist_to_user = function (req, res, next) {
   Playlist.findById(req.body._id, (err, playlist) => {
     console.log("User is " + req.user);
@@ -164,6 +189,13 @@ exports.add_shared_playlist_to_user = function (req, res, next) {
   });
 };
 
+/**
+ * Removes a shared playlist from the user
+ * Returns status message
+ *
+ * @param {*} req.body Is the playlist being removed
+ * @param {*} req.query.id Is the user whose shared playlist is being removed
+ */
 exports.stop_sharing_playlist_with_user = function (req, res, next) {
   Playlist.findById(req.body._id, (err, playlist) => {
     console.log("User is " + req.body._id);

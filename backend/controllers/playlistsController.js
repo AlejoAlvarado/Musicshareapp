@@ -12,6 +12,12 @@ exports.index = function (req, res, next) {
   });
 };
 
+/**
+ * Function that
+ * Returns the owner of a playlist
+ * 
+ * @param {*} req.params Contains the playlist id
+ */
 exports.get_playlist_owner = function (req, res, next) {
   Playlist.findById(req.params.id).populate('owner').exec((err, playlist) => {
     if (err) {
@@ -22,6 +28,12 @@ exports.get_playlist_owner = function (req, res, next) {
   });
 }
 
+/**
+ * Function that finds all playlists from a given user
+ * Returns playlists and sharedWithMe
+ * 
+ * @param {*} req.user Contains the user id whose playlists are required
+ */
 exports.search_my_playlists = function (req, res, next) {
   const user_id = req.user;
   User.findById(user_id).populate({
@@ -42,6 +54,12 @@ exports.search_my_playlists = function (req, res, next) {
   })
 }
 
+/**
+ * Function that saves a playlist
+ * Returns status message
+ * 
+ * @param {*} req.body contains information from the playlist to be created 
+ */
 exports.create = function (req, res, next) {
   let playlist = new Playlist({
     title: req.body.title,
@@ -85,6 +103,14 @@ exports.delete = function (req, res, next) {
   })
 }
 
+/**
+ * Function that adds a new song to an existing playlist
+ * Returns status message
+ * 
+ * @param {*} req.query contains playlist id
+ * @param {*} req.body contains song to be added
+ * 
+ */
 exports.add_song_to_playlist = function (req, res, next) {
   Playlist.findByIdAndUpdate({ _id: req.query.id }, { $push: { songs: req.body } }, (err, playlist) => {
     if (err) next(err)
@@ -92,6 +118,14 @@ exports.add_song_to_playlist = function (req, res, next) {
   });
 }
 
+/**
+ * Function that deletes a song from a playlist
+ * Returns status message
+ * 
+ * @param {*} req.query contains playlist whose song is to be deleted
+ * @param {*} req.body contains song to be deleted from the playlist
+ * 
+ */
 exports.delete_playlist_song = function (req, res, next) {
   Playlist.findByIdAndUpdate({ _id: req.query.id }, { $pull: { songs: { _id: req.body._id } } }, (err, playlist) => {
     if (err) next(err)

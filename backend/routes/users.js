@@ -17,6 +17,9 @@ const ROLES = {
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
 
+/**
+ * Defines storage configuration (bucket config) for multerS3 to use
+ */
 var storage = multerS3({
   acl: "public-read",
   s3,
@@ -28,6 +31,9 @@ var storage = multerS3({
     cb(null, Date.now().toString());
   },
 });
+/**
+ * Defines backend filtering for files, will not allow for files that are not mp3
+ */
 const upload = multer({
   storage: storage,
   fileFilter: function (req, file, callback) {
@@ -47,7 +53,6 @@ router.get(
   users_controller.index
 );
 router.post("/", users_controller.create);
-
 router.put(
   "/add-shared-playlist",
   isAuth,
@@ -58,7 +63,7 @@ router.put(
   isAuth,
   users_controller.stop_sharing_playlist_with_user
 );
-router.put("/:id", isAuth, authRole(ROLES.SUPERADMIN), users_controller.update);
+router.put("/:id", isAuth, users_controller.update);
 router.delete(
   "/:id",
   //isAuth,
