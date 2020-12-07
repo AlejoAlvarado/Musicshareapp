@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+/**
+ * Scheme to model playlists
+ */
 let PlaylistSchema = Schema({
     title: {type: String, required: true, max:100},
     cover: {type: String, required: false},
