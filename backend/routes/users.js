@@ -41,15 +41,21 @@ const upload = multer({
 });
 
 /* GET users listing. */
-router.get("/", users_controller.index);
+router.get(
+  "/",
+  //isAuth,
+  //authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
+  users_controller.index
+);
 router.post("/", users_controller.create);
+
 router.put("/add-shared-playlist", isAuth, users_controller.add_shared_playlist_to_user);
 router.put("/remove-shared-playlist", isAuth, users_controller.stop_sharing_playlist_with_user);
 router.put("/:id", isAuth, users_controller.update);
 router.delete(
   "/:id",
-  isAuth,
-  authRole(ROLES.SUPERADMIN),
+  //isAuth,
+  //authRole(ROLES.SUPERADMIN),
   users_controller.delete
 );
 router.get("/:id", users_controller.search);

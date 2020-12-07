@@ -12,8 +12,14 @@ var bcrypt = require("bcryptjs");
 
 exports.add_song_to_user = function (req, res) {
   try {
+    let songTitle="";
+    let i=0;
+    let splits=req.file.originalname.split(".");
+    for(i=0;i<splits.length-1;i++){
+      songTitle=songTitle.concat(splits[i]);
+    }
     var songData = {
-      title: req.file.originalname.split(".")[0],
+      title: songTitle,
       artists: "ME",
       songUrl: req.file.location,
       imageUrl: "NONE",

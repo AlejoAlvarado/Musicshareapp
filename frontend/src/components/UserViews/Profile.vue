@@ -89,7 +89,7 @@ export default {
     },
   },
   created() {
-    let currentUser = this.$store.getters.getUser;
+    /*let currentUser = this.$store.getters.getUser;
     console.log(currentUser);
     if (currentUser == undefined || currentUser == null || currentUser == "") {
       alert("You are not logged in. Please login to access this page.");
@@ -97,7 +97,7 @@ export default {
     } else {
       this.user = currentUser;
       this.user.password = "";
-    }
+    }*/
   },
 };
 </script>
