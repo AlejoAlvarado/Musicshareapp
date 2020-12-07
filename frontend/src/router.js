@@ -7,9 +7,12 @@ import PlaylistInfo from "./components/PlaylistViews/PlaylistInfo";
 import WelcomeView from "./components/WelcomeView";
 import UploadView from "./components/UploadViews/UploadView";
 import Profile from "./components/UserViews/Profile";
+import Userlist from "./components/UserViews/Userlist";
+import store from "./store";
+import { Role } from "./_helpers/role";
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: "/",
@@ -38,6 +41,38 @@ export default new Router({
     {
       path: "/profile",
       component: Profile,
+      meta: { authorize: [] },
+    },
+    {
+      path: "/userlist",
+      component: Userlist,
+      meta: { authorize: [Role.ADMIN, Role.SUPERADMIN] },
     },
   ],
+});
+export default router;
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const { authorize } = to.meta;
+  console.log("Before routing");
+
+  if (authorize) {
+    const currentUser = store.getters.getUser;
+    const token = store.getters.getToken;
+    if (!currentUser || !token) {
+      // not logged in so redirect to login page with the return url
+      alert("You are not logged in. Please login to access this page.");
+      return next({ path: "/signin", query: { returnUrl: to.path } });
+    }
+
+    // check if route is restricted by role
+    if (authorize.length && !authorize.includes(currentUser.role)) {
+      // role not authorised so redirect to home page
+      alert("You are not authorized to enter this page.");
+      return next({ path: "/" });
+    }
+  }
+
+  next();
 });

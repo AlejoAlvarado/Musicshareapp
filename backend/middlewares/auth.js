@@ -1,6 +1,4 @@
 const services = require("../services/index");
-const jwt = require("jwt-simple");
-const User = require("../models/users");
 
 function isAuth(req, res, next) {
   if (!req.headers.authorization) {
