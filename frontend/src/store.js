@@ -62,15 +62,26 @@ export default new Vuex.Store({
     obtainUsers({ commit }) {
       return (
         axios
-          .get("/users/")
+          .get("/users/", {
+            headers: {
+              authorization:
+                "Bearer " + JSON.parse(localStorage.getItem("user")).token,
+            },
+          })
           //.then(handleResponse)
           .then((users) => {
             commit("obtainUsers", users.data);
           })
       );
     },
+    cleanUsers({ commit }) {
+      commit("cleanUsers");
+    },
   },
   mutations: {
+    cleanUsers(state) {
+      state.users = "";
+    },
     obtainUsers(state, users) {
       state.users = users;
     },

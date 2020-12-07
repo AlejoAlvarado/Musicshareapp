@@ -84,25 +84,21 @@ export default {
       users: "",
     };
   },
-  computed: {
-    userStore() {
-      return this.$store.getters.users;
-    },
-  },
+  computed: {},
   created() {
     this.getUsers();
   },
   methods: {
-    ...mapActions(["obtainUsers"]),
+    ...mapActions(["obtainUsers", "cleanUsers"]),
     infoDependy(i) {
       this.selectedDepen = this.$store.state.dependencies[i];
       this.usersDepen = this.selectedDepen.members;
       this.dialog = true;
     },
     getUsers() {
-      let comp = this;
+      //this.cleanUsers();
       this.obtainUsers().then(() => {
-        comp.users = this.$store.getters.getUsers;
+        this.users = this.$store.getters.getUsers;
       });
     },
   },
