@@ -131,13 +131,19 @@ exports.delete = function (req, res, next) {
 };
 
 exports.add_shared_playlist_to_user = function(req,res,next){
-  User.findByIdAndUpdate(req.query.id,{$push:{sharedWithMe:req.body._id}},(err,user)=>{
-    if(err) return next(err);
-    Playlist.findByIdAndUpdate(req.body._id,{$push:{sharedWith:req.query.id}},(err,playlist)=>{
+  Playlist.findById(req.body._id, (err, playlist) => {
+    console.log ('User is ' + req.user);
+    console.log('Owner is ' + playlist.owner);
+    if (err) return next(err);
+    if (playlist.owner != req.user) return res.status(401).send({ message: "User not authorized" });
+    User.findByIdAndUpdate(req.query.id,{$push:{sharedWithMe:req.body._id}},(err,user)=>{
       if(err) return next(err);
-      console.log(user);
-      console.log(playlist);
-      res.send("playlist Shared Succesfully");
+      Playlist.findByIdAndUpdate(req.body._id,{$push:{sharedWith:req.query.id}},(err,playlist)=>{
+        if(err) return next(err);
+        console.log(user);
+        console.log(playlist);
+        res.send("playlist Shared Succesfully");
+      })
     })
   })
 }
