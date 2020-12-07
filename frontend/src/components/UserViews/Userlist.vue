@@ -90,7 +90,9 @@ export default {
       return this.$store.getters.users;
     },
   },
-  created() {},
+  created() {
+    this.getUsers();
+  },
   methods: {
     ...mapActions(["obtainUsers"]),
     infoDependy(i) {
@@ -99,7 +101,7 @@ export default {
       this.dialog = true;
     },
     getUsers() {
-      this.obtainUsers;
+      this.obtainUsers();
       this.users = this.$store.getters.getUsers;
     },
   },

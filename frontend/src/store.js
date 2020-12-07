@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "./config/axios";
 import AuthService from "./services/auth.service";
+//import { handleResponse } from "./_helpers/handle-Response";
 
 Vue.use(Vuex);
 
@@ -58,8 +59,21 @@ export default new Vuex.Store({
         }
       });
     },
+    obtainUsers({ commit }) {
+      return (
+        axios
+          .get("/users/")
+          //.then(handleResponse)
+          .then((users) => {
+            commit("obtainUsers", users);
+          })
+      );
+    },
   },
   mutations: {
+    obtainUsers(state, users) {
+      state.users = users;
+    },
     addSongToMusicPlaylist(state, newSong) {
       state.musicPlaylist.push({
         _id: newSong._id,
@@ -81,6 +95,8 @@ export default new Vuex.Store({
       console.log(data.user[0]);
       state.user = data.user[0];
       state.token = JSON.parse(localStorage.getItem("user"));
+      axios.defaults.headers.common["authorization"] =
+        "Bearer " + JSON.parse(localStorage.getItem("user")).token;
     },
     setUserMusicplaylist(state, user) {
       state.musicPlaylist = [];
@@ -108,6 +124,7 @@ export default new Vuex.Store({
       state.authstatus.role = "";
       state.user = "";
       state.token = null;
+      delete axios.defaults.headers.common["authorization"];
     },
     checkIfLogged(state) {
       let token = JSON.parse(localStorage.getItem("user"));

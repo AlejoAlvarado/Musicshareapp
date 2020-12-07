@@ -42,8 +42,8 @@ const upload = multer({
 /* GET users listing. */
 router.get(
   "/",
-  isAuth,
-  authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
+  //isAuth,
+  //authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
   users_controller.index
 );
 router.post("/", users_controller.create);

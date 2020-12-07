@@ -58,12 +58,14 @@ router.beforeEach((to, from, next) => {
   console.log("Before routing");
 
   if (authorize) {
-    const currentUser = store.getters.getUser;
+    const currentUser = JSON.parse(localStorage.getItem("user")).user[0];
     const token = store.getters.getToken;
     if (!currentUser || !token) {
       // not logged in so redirect to login page with the return url
+      console.log(currentUser);
+      console.log(token);
       alert("You are not logged in. Please login to access this page.");
-      return next({ path: "/signin", query: { returnUrl: to.path } });
+      return next({ path: "/signin" });
     }
 
     // check if route is restricted by role

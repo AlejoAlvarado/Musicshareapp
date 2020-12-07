@@ -1,6 +1,9 @@
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3000";
-// axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-
+//let token = localStorage.getItem("user");
+/*if (token != null) {
+  axios.defaults.headers.common["authorization"] =
+    "Bearer " + JSON.parse(localStorage.getItem("user")).token;
+}*/
 export default axios;
