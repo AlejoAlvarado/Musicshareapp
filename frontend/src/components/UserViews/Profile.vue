@@ -37,7 +37,7 @@
           v-model="user.password"
           name="input-10-2"
           label="Contraseña"
-          hint="Por lo menos 5 caracteres"
+          hint="Must have at least 5 characters. Leave blank if you don't want to change the password."
           class="input-group--focused"
           @click:append="showPass = !showPass"
           dark
@@ -53,7 +53,7 @@
         <div v-else align="center">
           <v-btn rounded @click="editProfile">Cancel</v-btn>
 
-          <v-btn rounded color="primary" @click="updateProfile"
+          <v-btn rounded color="primary" @click="updateUser"
             >Save changes</v-btn
           >
         </div>
@@ -79,24 +79,33 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["updateUser"]),
+    ...mapActions(["updateProfile"]),
     editProfile() {
       this.edit = !this.edit;
     },
-    updateProfile() {
-      this.updateUser(this.user);
-      this.editProfile();
+    updateUser() {
+      console.log(this.user.password);
+      if (this.user.password === "") {
+        console.log("no password");
+        delete this.user.password;
+        this.updateProfile(this.user);
+        this.editProfile();
+      } else {
+        console.log("password");
+        this.updateProfile(this.user);
+        this.editProfile();
+      }
     },
   },
   created() {
-    /*let currentUser = this.$store.getters.getUser;
-    console.log(currentUser);
-    if (currentUser == undefined || currentUser == null || currentUser == "") {
+    let currentUser = this.$store.getters.getUser;
+    this.user = currentUser;
+    this.user.password = "";
+    /* if (currentUser == undefined || currentUser == null || currentUser == "") {
       alert("You are not logged in. Please login to access this page.");
       this.$router.push("/signin");
     } else {
-      this.user = currentUser;
-      this.user.password = "";
+      
     }*/
   },
 };

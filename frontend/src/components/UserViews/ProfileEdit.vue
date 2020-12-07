@@ -44,6 +44,30 @@
           :disabled="!edit"
         ></v-text-field>
 
+        <div v-if="userIsSuperadmin()">
+          <v-row>
+            <v-col cols="6">
+              <v-subheader dark>
+                Select role
+              </v-subheader>
+            </v-col>
+
+            <v-col cols="6">
+              <v-select
+                dark
+                v-model="select"
+                required
+                :items="items"
+                item-text="name"
+                label="Select"
+                return-object
+                single-line
+                :disabled="!edit"
+              ></v-select>
+            </v-col>
+          </v-row>
+        </div>
+
         <div v-if="!edit" align="center">
           <v-btn align="center" rounded color="primary" @click="editProfile"
             >Edit profile</v-btn
@@ -53,7 +77,7 @@
         <div v-else align="center">
           <v-btn rounded @click="editProfile">Cancel</v-btn>
 
-          <v-btn rounded color="primary" @click="updateProfile"
+          <v-btn rounded color="primary" @click="updateSelectedUser"
             >Save changes</v-btn
           >
         </div>
@@ -64,6 +88,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { Role } from "../../_helpers/role";
 export default {
   data() {
     return {
@@ -73,9 +98,11 @@ export default {
         email: "",
         password: "",
       },
+      items: [Role.BASIC, Role.ADMIN, Role.SUPERADMIN],
       showPass: false,
       rules: [],
       edit: false,
+      select: "",
     };
   },
   methods: {
@@ -83,21 +110,28 @@ export default {
     editProfile() {
       this.edit = !this.edit;
     },
-    updateProfile() {
-      this.updateUser(this.user);
-      this.editProfile();
+    updateSelectedUser() {
+      console.log(this.user.password);
+      this.user.role = this.select;
+      this.updateUser(this.user).then(() => {
+        this.$router.push("/userlist");
+      });
+    },
+    userIsSuperadmin() {
+      let isSuperadmin = this.$store.getters.getUser.role === Role.SUPERADMIN;
+      if (isSuperadmin) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   created() {
-    /*let currentUser = this.$store.getters.getUser;
+    let currentUser = this.$store.state.selectedUser;
+    this.user = currentUser;
+    this.user.password = "";
+    this.select = this.user.role;
     console.log(currentUser);
-    if (currentUser == undefined || currentUser == null || currentUser == "") {
-      alert("You are not logged in. Please login to access this page.");
-      this.$router.push("/signin");
-    } else {
-      this.user = currentUser;
-      this.user.password = "";
-    }*/
   },
 };
 </script>

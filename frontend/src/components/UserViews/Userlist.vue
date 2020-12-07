@@ -95,7 +95,7 @@ export default {
     this.getUsers();
   },
   methods: {
-    ...mapActions(["obtainUsers", "cleanUsers"]),
+    ...mapActions(["obtainUsers", "cleanUsers", "setSelectedUser"]),
     infoDependy(i) {
       this.selectedDepen = this.$store.state.dependencies[i];
       this.usersDepen = this.selectedDepen.members;
@@ -104,8 +104,13 @@ export default {
     getUsers() {
       //this.cleanUsers();
       this.obtainUsers().then(() => {
-        this.users = this.$store.getters.getUsers;
+        this.users = this.$store.state.users;
       });
+    },
+    editUser(index) {
+      console.log(this.users[index]);
+      this.setSelectedUser(this.users[index]);
+      this.$router.push("/ProfileEdit");
     },
   },
 };

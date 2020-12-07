@@ -64,12 +64,19 @@ router.put(
   users_controller.stop_sharing_playlist_with_user
 );
 router.put("/:id", isAuth, users_controller.update);
+router.put(
+  "/special/:id",
+  isAuth,
+  authRole(ROLES.SUPERADMIN),
+  users_controller.update
+);
 router.delete(
   "/:id",
   //isAuth,
   //authRole(ROLES.SUPERADMIN),
   users_controller.delete
 );
+
 router.get("/:id", users_controller.search);
 router.post("/signin", users_controller.signinUser);
 router.post("/user-song", function (req, res) {

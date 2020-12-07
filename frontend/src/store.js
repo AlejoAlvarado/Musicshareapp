@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "./config/axios";
 import AuthService from "./services/auth.service";
+import { Role } from "./_helpers/role";
 //import { handleResponse } from "./_helpers/handle-Response";
 
 Vue.use(Vuex);
@@ -14,7 +15,8 @@ export default new Vuex.Store({
       {
         title: "Another Love",
         artist: "Tom Odell",
-        url: "https://songs-bucket-adv-web.s3.amazonaws.com/dd66d01667f8d16932a6fca4aa71572b",
+        url:
+          "https://songs-bucket-adv-web.s3.amazonaws.com/dd66d01667f8d16932a6fca4aa71572b",
         image: "https://source.unsplash.com/crs2vlkSe98/400x400",
       },
     ],
@@ -47,17 +49,73 @@ export default new Vuex.Store({
     checkIfLogged({ commit }) {
       commit("checkIfLogged");
     },
-    updateUser({ commit }, data) {
-      commit("updateUser", data);
+    updateProfile({ commit }, data) {
+      console.log(data.password);
+      let pass = data.password;
+      console.log(pass);
+      commit("updateProfile", data);
+      console.log(data.password);
       let userid = data._id;
-      return axios.put("/users/" + userid, data).then((res) => {
-        if (res.status >= 200 && res.status < 300) {
-          alert("Usuario actualizado correctamente!");
-          // console.log("delete exitoso");
-        } else {
-          console.log("Hubo un error actualizando al usuario");
+      if (pass != undefined) {
+        data.password = pass;
+        console.log(data.password);
+      } else {
+        delete data.password;
+      }
+      console.log(data);
+      return axios.put("/users/" + userid, data).then(
+        (res) => {
+          if (res.status >= 200 && res.status < 300) {
+            alert("Profile update succesfully!");
+            // console.log("delete exitoso");
+          } else {
+            console.log("Error updating user");
+          }
+        },
+        (error) => {
+          console.log(error.data);
         }
-      });
+      );
+    },
+    updateUser({ commit }, data) {
+      let currentUser = this.state.user;
+      let pass = data.password;
+      console.log(data);
+      console.log(pass);
+      if (pass == "") {
+        delete data.password;
+      }
+      if (currentUser.role === Role.ADMIN) {
+        commit("cleanSelectedUser");
+        let userid = data._id;
+        return axios.put("/users/" + userid, data).then((res) => {
+          if (res.status >= 200 && res.status < 300) {
+            alert("User updated correctly!");
+          } else if (res.status === 401 || res.status === 403) {
+            alert("You are not authorized to take this action.");
+            console.log("Authorization error");
+            this.dispatch("logout");
+          } else {
+            alert("Error when updating.");
+            console.log("Error when updating");
+          }
+        });
+      } else if (currentUser.role === Role.SUPERADMIN) {
+        commit("cleanSelectedUser");
+        let userid = data._id;
+        return axios.put("/users/special/" + userid, data).then((res) => {
+          if (res.status >= 200 && res.status < 300) {
+            alert("User updated correctly!");
+          } else if (res.status === 401 || res.status === 403) {
+            alert("You are not authorized to take this action.");
+            console.log("Authorization error");
+            this.dispatch("logout");
+          } else {
+            alert("Error when updating.");
+            console.log("Error when updating");
+          }
+        });
+      }
     },
     obtainUsers({ commit }) {
       return (
@@ -72,12 +130,22 @@ export default new Vuex.Store({
     cleanUsers({ commit }) {
       commit("cleanUsers");
     },
+    setSelectedUser({ commit }, selectedUser) {
+      commit("setSelectedUser", selectedUser);
+    },
   },
   mutations: {
+    cleanSelectedUser(state) {
+      state.selectedUser = "";
+    },
+    setSelectedUser(state, selectedUser) {
+      state.selectedUser = selectedUser;
+    },
     cleanUsers(state) {
       state.users = "";
     },
     obtainUsers(state, users) {
+      users = users.filter((current) => current._id !== state.user._id);
       state.users = users;
     },
     addSongToMusicPlaylist(state, newSong) {
@@ -140,11 +208,12 @@ export default new Vuex.Store({
         state.authstatus.currentRole = state.user.role;
       }
     },
-    updateUser(state, data) {
-      console.log(data);
-      data.password = "";
+    updateProfile(state, data) {
+      console.log("mutation " + data);
+
       let tok = JSON.parse(localStorage.getItem("user"));
       tok.user[0] = data;
+      tok.user[0].password = "";
       state.token = tok;
       localStorage.setItem("user", JSON.stringify(tok));
     },
@@ -153,9 +222,10 @@ export default new Vuex.Store({
       state.musicPlaylist.push({
         title: "Another Love",
         artist: "Tom Odell",
-        url: "https://songs-bucket-adv-web.s3.amazonaws.com/dd66d01667f8d16932a6fca4aa71572b",
+        url:
+          "https://songs-bucket-adv-web.s3.amazonaws.com/dd66d01667f8d16932a6fca4aa71572b",
         image: "https://source.unsplash.com/crs2vlkSe98/400x400",
-      },);
+      });
     },
     setCurrentSong(state, newValue) {
       state.currentSong = newValue;
@@ -176,6 +246,9 @@ export default new Vuex.Store({
     },
     getUsers(state) {
       return state.users;
+    },
+    getSelectedUser(state) {
+      return state.selectedUser;
     },
   },
 });
