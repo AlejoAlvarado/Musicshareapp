@@ -4,7 +4,7 @@
       <div>
         <v-card-title class="headline" v-text="playlist.title"></v-card-title>
 
-        <v-card-subtitle v-text="'By: ' + playlist.owner"></v-card-subtitle>
+        <v-card-subtitle v-text="'By: ' + playlist.owner.username"></v-card-subtitle>
 
         <v-card-actions v-if="editable">
           <v-btn
