@@ -101,8 +101,10 @@ export default {
       this.dialog = true;
     },
     getUsers() {
-      this.obtainUsers();
-      this.users = this.$store.getters.getUsers;
+      let comp = this;
+      this.obtainUsers().then(() => {
+        comp.users = this.$store.getters.getUsers;
+      });
     },
   },
 };

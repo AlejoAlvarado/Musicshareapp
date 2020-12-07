@@ -55,8 +55,8 @@ router.put(
 router.put("/:id", isAuth, users_controller.update);
 router.delete(
   "/:id",
-  isAuth,
-  authRole(ROLES.SUPERADMIN),
+  //isAuth,
+  //authRole(ROLES.SUPERADMIN),
   users_controller.delete
 );
 router.get("/:id", users_controller.search);

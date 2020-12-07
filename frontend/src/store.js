@@ -65,7 +65,7 @@ export default new Vuex.Store({
           .get("/users/")
           //.then(handleResponse)
           .then((users) => {
-            commit("obtainUsers", users);
+            commit("obtainUsers", users.data);
           })
       );
     },
@@ -167,6 +167,9 @@ export default new Vuex.Store({
     },
     getToken(state) {
       return state.token;
+    },
+    getUsers(state) {
+      return state.users;
     },
   },
 });
