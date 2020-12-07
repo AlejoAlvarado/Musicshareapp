@@ -17,7 +17,6 @@ const ROLES = {
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
 
-
 var storage = multerS3({
   acl: "public-read",
   s3,
@@ -43,7 +42,7 @@ const upload = multer({
 /* GET users listing. */
 router.get(
   "/",
-  //isAuth,
+  isAuth,
   //authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
   users_controller.index
 );

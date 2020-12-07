@@ -17,8 +17,7 @@
 
                   <v-col class="btnitems">
                     <v-btn
-                      @click.capture="editDependency(i)"
-                      to="/editdepenency"
+                      @click="editUser(i)"
                       class="mx-2"
                       fab
                       dark
