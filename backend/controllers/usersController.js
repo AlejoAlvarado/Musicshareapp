@@ -156,15 +156,18 @@ exports.search = function (req, res, next) {
 };
 
 exports.getPlaylistsFromUser = function (req, res, next) {
-  User.findById(req.params.id).populate({
-    path: 'playlists', populate: {
-      path: 'owner'
-    }
-  }).exec((err, user) => {
-    if (err) return next(err);
-    res.send(user.playlists);
-  })
-}
+  User.findById(req.params.id)
+    .populate({
+      path: "playlists",
+      populate: {
+        path: "owner",
+      },
+    })
+    .exec((err, user) => {
+      if (err) return next(err);
+      res.send(user.playlists);
+    });
+};
 
 exports.update = function (req, res, next) {
   console.log("updating");
@@ -178,6 +181,20 @@ exports.update = function (req, res, next) {
     if (err) return next(err);
     res.send("User updated succesfully");
   });
+};
+
+exports.banned = function (req, res, next) {
+  User.findByIdAndUpdate(
+    req.params.id,
+    { active: req.body.active },
+    (err, user) => {
+      if (err) return next(err);
+
+      console.log(req.body.active);
+      console.log(req.body);
+      res.status(200).send("User processed successfully");
+    }
+  );
 };
 
 exports.delete = function (req, res, next) {

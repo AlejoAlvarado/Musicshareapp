@@ -52,13 +52,20 @@ router.get(
   authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
   users_controller.index
 );
-router.post("/", users_controller.create);
+router.put(
+  "/banned/:id",
+  isAuth,
+  authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
+  users_controller.banned
+);
 router.post(
   "/super/",
   isAuth,
-  authRole(ROLES.SUPERADMIN),
+  authRole([ROLES.SUPERADMIN]),
   users_controller.create
 );
+
+router.post("");
 
 router.put(
   "/add-shared-playlist",
@@ -84,7 +91,12 @@ router.delete(
   users_controller.delete
 );
 
-router.get('/:id/playlists', isAuth, authRole([ROLES.ADMIN, ROLES.SUPERADMIN]), users_controller.getPlaylistsFromUser);
+router.get(
+  "/:id/playlists",
+  isAuth,
+  authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
+  users_controller.getPlaylistsFromUser
+);
 
 router.get("/:id", users_controller.search);
 router.post("/signin", users_controller.signinUser);

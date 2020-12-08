@@ -70,7 +70,7 @@
                           dark
                           small
                           color="green"
-                          :to = "'/user/' + item._id + '/playlists'"
+                          :to="'/user/' + item._id + '/playlists'"
                           v-bind="attrs"
                           v-on="on"
                         >
@@ -83,11 +83,11 @@
                     </v-tooltip>
                   </v-col>
 
-                  <v-col class="btnitems">
+                  <v-col class="btnitems" v-if="item.active">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          @click="editUser(i)"
+                          @click="banUser(i)"
                           class="mx-2"
                           fab
                           dark
@@ -104,6 +104,28 @@
                       <span>Ban user</span>
                     </v-tooltip>
                   </v-col>
+
+                  <v-col class="btnitems" v-else>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="banUser(i)"
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          color="indigo"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-gavel
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Unbann user</span>
+                    </v-tooltip>
+                  </v-col>
                 </v-row>
               </v-list-item-content>
             </v-list-item>
@@ -116,7 +138,7 @@
 
 <script>
 import { mapActions } from "vuex";
-//import axios from "../../config/axios";
+import axios from "../../config/axios";
 export default {
   data() {
     return {
@@ -138,10 +160,24 @@ export default {
   },
   methods: {
     ...mapActions(["obtainUsers", "cleanUsers", "setSelectedUser"]),
-    infoDependy(i) {
-      this.selectedDepen = this.$store.state.dependencies[i];
-      this.usersDepen = this.selectedDepen.members;
-      this.dialog = true;
+    banUser(index) {
+      let bannedUser = this.users[index];
+      bannedUser.active = !bannedUser.active;
+      let userid = bannedUser._id;
+      axios.put("/users/banned/" + userid, bannedUser).then(
+        (res) => {
+          if (res.status >= 200 && res.status < 300) {
+            alert("User processed succesfully!");
+            // console.log("delete exitoso");
+          } else {
+            console.log("Error updating user");
+          }
+        },
+        (error) => {
+          console.log(error.data);
+        }
+      );
+      location.reload();
     },
     getUsers() {
       //this.cleanUsers();
