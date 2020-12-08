@@ -1,3 +1,7 @@
+/**
+ * Class that contains the vuex store with its correspondent actions, mutations and getters.
+ * It also exports the vuex store to the whole frontend of the application.
+ */
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "./config/axios";
@@ -8,6 +12,9 @@ import { Role } from "./_helpers/role";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  /**
+   * The state of the application in vuex
+   */
   state: {
     token: JSON.parse(localStorage.getItem("user")),
     user: "",
@@ -23,10 +30,19 @@ export default new Vuex.Store({
     authstatus: { isLoggedIn: false, currentRole: "" },
     currentSong: 0,
   },
+  /**
+   * The actions that can be dispatched by vuex
+   */
   actions: {
     addSongToMusicPlaylist({ commit }, newSong) {
       commit("addSongToMusicPlaylist", newSong);
     },
+
+    /* Method that employs the authservice class in order to login a user to the application.
+     It returns a resolved promise or a rejected promise in the case that an error occurs.
+     @param {*} user The user that will be logged in
+     */
+
     login({ commit }, user) {
       return AuthService.login(user).then(
         (res) => {
@@ -40,15 +56,26 @@ export default new Vuex.Store({
         }
       );
     },
+
+    /**
+     * Action to log the user out of the application.
+     *
+     */
     logout({ commit }) {
       console.log("logging out");
       AuthService.logout();
       commit("logout");
       commit("restartPlaylist");
     },
+    /**
+     * Action to check if the user is logged
+     */
     checkIfLogged({ commit }) {
       commit("checkIfLogged");
     },
+    /*Action to update a users attributes by making a request to the server. 
+     @param {*} data A parameter with the information that must be update from the user 
+     */
     updateProfile({ commit }, data) {
       console.log(data.password);
       let pass = data.password;
@@ -78,6 +105,11 @@ export default new Vuex.Store({
         }
       );
     },
+    /*
+    Action to update a user in case that the user trying to make the update has the role of ADMIN or SUPERUSER.
+    Depending on the role of the user, a different request url will be used to make the update request to the server.
+     @param {*} data A parameter with the information that must be update from the user
+     */
     updateUser({ commit }, data) {
       let currentUser = this.state.user;
       let pass = data.password;
@@ -120,6 +152,9 @@ export default new Vuex.Store({
         );
       }
     },
+    /**
+     * An action that gets all the users that currently populate de database.
+     */
     obtainUsers({ commit }) {
       return (
         axios
@@ -130,13 +165,25 @@ export default new Vuex.Store({
           })
       );
     },
+    /**
+     * An action that cleans the users variable in state
+     *
+     */
     cleanUsers({ commit }) {
       commit("cleanUsers");
     },
+    /*
+     * An action that creates a new property in state
+     * named selectedUser, to be used by oother vue components.
+     * @param {*} selectedUser The user that was selected in the call
+     */
     setSelectedUser({ commit }, selectedUser) {
       commit("setSelectedUser", selectedUser);
     },
   },
+  /**
+   * The mutations that ca be committed by vuex
+   */
   mutations: {
     cleanSelectedUser(state) {
       state.selectedUser = "";
@@ -235,6 +282,9 @@ export default new Vuex.Store({
       state.currentSong = newValue;
     },
   },
+  /**
+   * The getters for some variables in the vuex store
+   */
   getters: {
     isLoggedIn(state) {
       return state.authstatus.isLoggedIn;

@@ -1,3 +1,4 @@
+<!-- Component with the list of users that are registered in the application. Depending on the users role, different actions can be taken. -->
 <template>
   <v-container>
     <div class="form-wrapper">
