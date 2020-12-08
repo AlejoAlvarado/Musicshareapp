@@ -20,6 +20,7 @@ const ROLES = {
 //ATTENTION, DELETE THIS WHEN PUSHING
 //CREDENTIALS ARE ADDED HERE
 
+
 /**
  * Defines storage configuration (bucket config) for multerS3 to use
  */
