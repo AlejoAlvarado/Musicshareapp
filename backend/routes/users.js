@@ -89,6 +89,9 @@ router.post(
   users_controller.create
 );
 
+/**
+ * Route that allows a user to be created
+ */
 router.post("/", users_controller.check_username, users_controller.create);
 
 /**

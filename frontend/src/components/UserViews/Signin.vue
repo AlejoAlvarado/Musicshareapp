@@ -1,3 +1,4 @@
+<!-- Component with the signin form that allows a user to signin to the application. -->
 <template>
   <div>
     <v-dialog v-model="dialog" width="500">
