@@ -53,6 +53,13 @@ router.get(
   users_controller.index
 );
 router.post("/", users_controller.create);
+router.post(
+  "/super/",
+  isAuth,
+  authRole(ROLES.SUPERADMIN),
+  users_controller.create
+);
+
 router.put(
   "/add-shared-playlist",
   isAuth,

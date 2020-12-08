@@ -15,7 +15,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="handleDialog">
-            Entendido!
+            OK!
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -72,7 +72,7 @@ export default {
         () => {
           this.loginMessage = "You have succesfully signed in!";
           this.dialog = true;
-          this.$root.$emit('AudioPlayer')
+          this.$root.$emit("AudioPlayer");
         },
         (error) => {
           this.loginMessage = "Incorrect email and/or password.";

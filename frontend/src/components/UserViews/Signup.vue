@@ -1,5 +1,27 @@
 <template
   ><div>
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          Account registered
+        </v-card-title>
+
+        <v-card-text>
+          Your account was successfully registered! Please log in to your
+          account.
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="handleDialog">
+            OK!
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-container>
       <v-form ref="form" align="center">
         <div>
@@ -57,6 +79,7 @@ export default {
       },
       showPass: false,
       rules: [],
+      dialog: false,
     };
   },
   methods: {
@@ -65,6 +88,7 @@ export default {
       axios.post("/users/", data).then((res) => {
         if (res.status >= 200 && res.status < 300) {
           this.refreshUser();
+          this.dialog = !this.dialog;
         } else {
           console.log("Ocurrio un error en back");
         }
@@ -77,6 +101,10 @@ export default {
         email: "",
         password: "",
       };
+    },
+    handleDialog() {
+      this.dialog = !this.dialog;
+      this.$router.push("/");
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="form-wrapper">
-      <h2>User list</h2>
+      <h1>User list</h1>
 
       <v-card class="mx-auto" max-width="1000">
         <v-list>
@@ -152,13 +152,17 @@ export default {
     editUser(index) {
       console.log(this.users[index]);
       this.setSelectedUser(this.users[index]);
-      this.$router.push("/ProfileEdit");
+      this.$router.push("/profedit");
     },
   },
 };
 </script>
 
 <style>
+h1 {
+  font-size: 45px;
+  color: rgb(255, 255, 255);
+}
 .form-wrapper {
   padding: 40px;
 }

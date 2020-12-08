@@ -1,7 +1,27 @@
 <template
   ><div>
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          Account registered
+        </v-card-title>
+
+        <v-card-text>
+          You have successfully registered this account!
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="handleDialog">
+            OK!
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-container>
-      <h1>{{ user.username }}'s Profile</h1>
       <v-form ref="form" align="center">
         <div>
           <v-text-field
@@ -9,8 +29,6 @@
             label="Name"
             required
             dark
-            ref="textfield"
-            :disabled="!edit"
           ></v-text-field>
         </div>
         <div>
@@ -19,7 +37,6 @@
             label="Usename"
             required
             dark
-            :disabled="!edit"
           ></v-text-field>
         </div>
         <div>
@@ -28,7 +45,6 @@
             label="Email"
             required
             dark
-            :disabled="!edit"
           ></v-text-field>
         </div>
         <v-text-field
@@ -37,14 +53,13 @@
           v-model="user.password"
           name="input-10-2"
           label="Contraseña"
-          hint="Must have at least 5 characters. Leave blank if you don't want to change the password."
+          hint="Por lo menos 5 caracteres"
           class="input-group--focused"
           @click:append="showPass = !showPass"
           dark
-          :disabled="!edit"
         ></v-text-field>
 
-        <div v-if="userIsSuperadmin()">
+        <div>
           <v-row>
             <v-col cols="6">
               <v-subheader dark>
@@ -62,86 +77,79 @@
                 label="Select"
                 return-object
                 single-line
-                :disabled="!edit"
               ></v-select>
             </v-col>
           </v-row>
         </div>
 
-        <div v-if="!edit" align="center">
-          <v-btn align="center" rounded color="primary" @click="editProfile"
-            >Edit profile</v-btn
-          >
+        <div>
+          <v-row>
+            <v-col cols="12" md="4">
+              <v-checkbox
+                v-model="user.active"
+                label="Activate user"
+                dark
+              ></v-checkbox>
+            </v-col>
+          </v-row>
         </div>
 
-        <div v-else align="center">
-          <v-btn rounded @click="editProfile">Cancel</v-btn>
-
-          <v-btn rounded color="primary" @click="updateSelectedUser"
-            >Save changes</v-btn
-          >
-        </div>
+        <v-btn rounded color="primary" @click="registerUser"
+          >Register User</v-btn
+        >
       </v-form>
     </v-container>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import axios from "axios";
 import { Role } from "../../_helpers/role";
 export default {
   data() {
     return {
       user: {
-        name: "Alejandro",
-        username: "Alejo123",
+        name: "",
+        username: "",
         email: "",
         password: "",
+        role: "",
+        active: false,
       },
-      items: [Role.BASIC, Role.ADMIN, Role.SUPERADMIN],
       showPass: false,
       rules: [],
-      edit: false,
-      select: "",
+      items: [Role.BASIC, Role.ADMIN, Role.SUPERADMIN],
+      select: Role.BASIC,
+      dialog: false,
     };
   },
   methods: {
-    ...mapActions(["updateUser"]),
-    editProfile() {
-      this.edit = !this.edit;
-    },
-    updateSelectedUser() {
-      console.log(this.user.password);
+    registerUser() {
       this.user.role = this.select;
-      this.updateUser(this.user).then(() => {
-        this.$router.push("/userlist");
+      let data = this.user;
+      axios.post("/users/super/", data).then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          this.refreshUser();
+          this.dialog = !this.dialog;
+        } else {
+          console.log("Ocurrio un error en back");
+        }
       });
     },
-    userIsSuperadmin() {
-      let isSuperadmin = this.$store.getters.getUser.role === Role.SUPERADMIN;
-      if (isSuperadmin) {
-        return true;
-      } else {
-        return false;
-      }
+    refreshUser() {
+      this.user = {
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+      };
     },
-  },
-  created() {
-    let currentUser = this.$store.state.selectedUser;
-    this.user = currentUser;
-    this.user.password = "";
-    this.select = this.user.role;
-    console.log(currentUser);
+    handleDialog() {
+      this.dialog = !this.dialog;
+      this.$router.push("/");
+    },
   },
 };
 </script>
 
-<style>
-h1 {
-  font-size: 45px;
-  color: rgb(255, 255, 255);
-}
-#textfield {
-  width: 50%;
-}
-</style>
+<style></style>

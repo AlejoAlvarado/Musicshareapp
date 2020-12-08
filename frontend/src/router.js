@@ -9,6 +9,7 @@ import UploadView from "./components/UploadViews/UploadView";
 import Profile from "./components/UserViews/Profile";
 import Userlist from "./components/UserViews/Userlist";
 import ProfileEdit from "./components/UserViews/ProfileEdit";
+import RegisterUser from "./components/UserViews/RegisterUser";
 import store from "./store";
 import { Role } from "./_helpers/role";
 Vue.use(Router);
@@ -45,7 +46,7 @@ const router = new Router({
       meta: { authorize: [] },
     },
     {
-      path: "/profileedit",
+      path: "/profedit",
       component: ProfileEdit,
       meta: { authorize: [Role.ADMIN, Role.SUPERADMIN] },
     },
@@ -53,6 +54,11 @@ const router = new Router({
       path: "/userlist",
       component: Userlist,
       meta: { authorize: [Role.ADMIN, Role.SUPERADMIN] },
+    },
+    {
+      path: "/registeruser",
+      component: RegisterUser,
+      meta: { authorize: [Role.SUPERADMIN] },
     },
   ],
 });
