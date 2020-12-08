@@ -1,3 +1,6 @@
+<!-- A template that shows the info about a playlist: The PlaylistCard, the songs it has in a table, and actions to
+  go back to the playlists, add a song already uploaded to the playlist and see people that have the playlist shared and stop
+  sharing it with them -->
 <template>
   <div>
     <v-row dense>
@@ -9,6 +12,8 @@
     <v-btn @click="open_songs_dialog" dark> Add song </v-btn>
     <v-btn @click="open_show_shared" dark> Manage shared </v-btn>
     <song-list :songs="playlist.songs" :playlist_id="playlist_id" />
+
+    <!-- Visible when user clicks "Add song". Shows all the songs owned by the user and can select one -->
     <v-overlay v-model="songs_dialog">
       <v-card v-click-outside="onClickOutside" class="pa-5" width="500">
         <v-virtual-scroll
@@ -38,6 +43,7 @@
       </v-card>
     </v-overlay>
 
+    <!-- Visible when user clicks "Manage Shared". Shows all the users that the user has shared the playlist with and can stop sharing -->
     <v-overlay v-model="shows_shared">
       <v-card v-click-outside="onClickOutside" class="pa-5" width="500">
         <v-virtual-scroll
@@ -76,7 +82,10 @@ import SongList from "./SongsList.vue";
 export default {
   components: { PlaylistCard, SongList },
   data: () => ({
+    //An atribute that allows to scroll on the virtual_scroll
     benched: 0,
+
+  //Boolean atributes to manage the fact to show or don't show the v-overlays
     songs_dialog: false,
     shows_shared: false,
     playlist: {},
@@ -109,6 +118,9 @@ export default {
           this.reset_songs();
         });
     },
+
+    //Method to re-load the playlist information and songs. Usually used when songs are added or deleted, or when
+    //the playlist stopped being shared to somebody.
     reset_songs() {
       const playlistId = this.$route.params.id;
       axios.get("/playlists/" + playlistId).then((res) => {
