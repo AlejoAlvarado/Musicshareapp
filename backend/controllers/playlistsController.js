@@ -96,7 +96,7 @@ exports.create = function (req, res, next) {
  * @param {*} next Callback Function
  */
 exports.search = function (req, res, next) {
-  Playlist.findById(req.params.id).populate('owner').populate('sharedWith').populate('songs').exec((err, playlist) => {
+  Playlist.findById(req.params.id).populate('owner').populate('sharedWith').exec((err, playlist) => {
     if (err) return next(err)
     res.send(playlist)
   })

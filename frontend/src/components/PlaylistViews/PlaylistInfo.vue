@@ -132,6 +132,7 @@ export default {
   },
   created() {
     this.reset_songs();
+    console.log('The playlist is: ' + JSON.stringify(this.playlist));
   },
 };
 </script>

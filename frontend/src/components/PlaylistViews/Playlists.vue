@@ -119,6 +119,7 @@ export default {
           this.playlists = userWithPlaylists.playlists;
           this.playlistsSharedWithMe = userWithPlaylists.sharedWithMe;
           console.log(this.playlists);
+          console.log(this.playlistsSharedWithMe);
         });
     }
   },
