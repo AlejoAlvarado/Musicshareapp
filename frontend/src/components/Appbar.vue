@@ -1,3 +1,6 @@
+<!-- This component displays the navigation bar that will be displayed through the application.
+Depending on if the user is logged in and the role of the user currently logged in,
+the component will show different button set options. -->
 <template>
   <v-app-bar app color="#0070a8">
     <router-link to="/">

@@ -1,3 +1,7 @@
+/**
+ * This class contains all the routes that the application can navigate into and the router that will
+ * make that navigation possible.
+ */
 import Vue from "vue";
 import Router from "vue-router";
 import Signup from "./components/UserViews/Signup";
