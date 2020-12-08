@@ -9,12 +9,9 @@ import UploadView from "./components/UploadViews/UploadView";
 import Profile from "./components/UserViews/Profile";
 import Userlist from "./components/UserViews/Userlist";
 import ProfileEdit from "./components/UserViews/ProfileEdit";
-<<<<<<< HEAD
 import UserPlaylists from "./components/PlaylistViews/UserPlaylists";
-
-=======
 import RegisterUser from "./components/UserViews/RegisterUser";
->>>>>>> aed6fc6b217420ca87e2dc61ce1ee9d5a78810f2
+
 import store from "./store";
 import { Role } from "./_helpers/role";
 Vue.use(Router);
