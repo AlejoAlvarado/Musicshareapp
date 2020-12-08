@@ -4,7 +4,7 @@
       <h1 class="white--text">SpotiCloudy</h1>
     </router-link>
     <v-spacer></v-spacer>
-    <div v-if="isLoggedIn && isBasic(currentRole)">
+    <div v-if="isLoggedIn && isBasic">
       <v-btn class="white--text mr-2" to="/" color="red" @click="logoutUser"
         >Logout</v-btn
       >
@@ -12,43 +12,41 @@
       <v-btn class="white--text mr-2" to="/playlists" color="blue"
         >Library</v-btn
       >
-      <v-btn to="/signup" icon>
+      <v-btn to="/profile" icon>
         <v-icon color="white">mdi-account-circle-outline</v-icon>
       </v-btn>
     </div>
 
-    <div v-else-if="isLoggedIn && isAdmin(currentRole)">
+    <div v-else-if="isLoggedIn && isAdmin">
       <v-btn class="white--text mr-2" to="/" color="red" @click="logoutUser"
         >Logout</v-btn
       >
-      <v-btn class="white--text mr-2" to="/upload" color="blue"
+      <v-btn class="white--text mr-2" to="/userlist" color="blue"
         >List Users</v-btn
       >
       <v-btn class="white--text mr-2" to="/upload" color="blue">Upload</v-btn>
       <v-btn class="white--text mr-2" to="/playlists" color="blue"
         >Library</v-btn
       >
-      <v-btn to="/signup" icon>
+      <v-btn to="/profile" icon>
         <v-icon color="white">mdi-account-circle-outline</v-icon>
       </v-btn>
     </div>
 
-    <div
-      v-else-if="isLoggedIn && !isAdmin(currentRole) && !isBasic(currentRole)"
-    >
+    <div v-else-if="isLoggedIn && !isAdmin && !isBasic">
       <v-btn class="white--text mr-2" to="/" color="red" @click="logoutUser"
         >Logout</v-btn
       >
-      <v-btn class="white--text mr-2" to="/upload" color="blue"
+      <v-btn class="white--text mr-2" to="/userlist" color="blue"
         >List Users</v-btn
-      ><v-btn class="white--text mr-2" to="/upload" color="blue"
+      ><v-btn class="white--text mr-2" to="/registeruser" color="blue"
         >Add user</v-btn
       >
       <v-btn class="white--text mr-2" to="/upload" color="blue">Upload</v-btn>
       <v-btn class="white--text mr-2" to="/playlists" color="blue"
         >Library</v-btn
       >
-      <v-btn to="/signup" icon>
+      <v-btn to="/profile" icon>
         <v-icon color="white">mdi-account-circle-outline</v-icon>
       </v-btn>
     </div>
@@ -75,12 +73,6 @@ export default {
     checkIfUserLogged() {
       this.checkIfLogged();
     },
-    isAdmin(role) {
-      return role === "ADMIN";
-    },
-    isBasic(role) {
-      return role === "BASIC";
-    },
   },
   computed: {
     isLoggedIn() {
@@ -88,6 +80,16 @@ export default {
     },
     currentRole() {
       return this.$store.getters.CurrentRole;
+    },
+    isBasic() {
+      let currentRole = this.$store.state.authstatus.currentRole;
+      console.log(currentRole);
+      return currentRole === "BASIC";
+    },
+    isAdmin() {
+      let currentRole = this.$store.state.authstatus.currentRole;
+      console.log(currentRole);
+      return currentRole === "ADMIN";
     },
   },
   created() {

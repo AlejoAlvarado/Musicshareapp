@@ -168,6 +168,7 @@ export default new Vuex.Store({
       state.authstatus.isLoggedIn = true;
       console.log(data.user[0]);
       state.user = data.user[0];
+      state.authstatus.currentRole = data.user[0].role;
       state.token = JSON.parse(localStorage.getItem("user"));
       axios.defaults.headers.common["authorization"] =
         "Bearer " + JSON.parse(localStorage.getItem("user")).token;
@@ -195,7 +196,7 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.authstatus.isLoggedIn = false;
-      state.authstatus.role = "";
+      state.authstatus.currentRole = "";
       state.user = "";
       state.token = null;
       delete axios.defaults.headers.common["authorization"];

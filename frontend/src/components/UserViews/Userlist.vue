@@ -15,7 +15,49 @@
                     ></v-list-item-title>
                   </v-col>
 
-                  <v-col class="btnitems">
+                  <v-col class="btnitems" v-if="isAdmin(item.role)">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="editUser(i)"
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          color="orange"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-pencil
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Edit Admin</span>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col class="btnitems" v-else-if="isSuperadmin(item.role)">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="editUser(i)"
+                          class="mx-2"
+                          fab
+                          dark
+                          small
+                          color="red"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon dark>
+                            mdi-pencil
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Edit Superadmin</span>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col class="btnitems" v-else>
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -189,6 +231,12 @@ export default {
       console.log(this.users[index]);
       this.setSelectedUser(this.users[index]);
       this.$router.push("/profedit");
+    },
+    isAdmin(role) {
+      return role === "ADMIN";
+    },
+    isSuperadmin(role) {
+      return role === "SUPERADMIN";
     },
   },
 };

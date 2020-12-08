@@ -50,13 +50,25 @@ exports.add_song_to_user = function (req, res) {
 };
 
 exports.index = function (req, res, next) {
-  User.find({}, (err, users) => {
-    if (err) {
-      return next(err);
-    } else {
-      res.send(users);
-    }
-  });
+  console.log(req.role);
+  console.log(req.role === ROLES.ADMIN);
+  if (req.role === ROLES.ADMIN) {
+    User.find({ role: { $ne: ROLES.SUPERADMIN } }, (err, users) => {
+      if (err) {
+        return next(err);
+      } else {
+        res.send(users);
+      }
+    });
+  } else {
+    User.find({}, (err, users) => {
+      if (err) {
+        return next(err);
+      } else {
+        res.send(users);
+      }
+    });
+  }
 };
 
 /**
