@@ -111,6 +111,11 @@ export default {
     };
   },
   methods: {
+    /**
+     * Method that sends a request to the server in order to register a user, setting the attributes
+     * of the user exactly like the attributes filed in the form of this component.
+     *
+     */
     registerUser() {
       let data = this.user;
       axios.post("/users/", data).then(

@@ -1,3 +1,6 @@
+/**
+ * This class is the entrypoint of the application were many of the tools used in the project will be initialized.
+ */
 import Vue from "vue";
 import App from "./App.vue";
 import vuetify from "@/plugins/vuetify"; // path to vuetify export

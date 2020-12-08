@@ -149,6 +149,11 @@ export default {
     };
   },
   methods: {
+    /**
+     * Method that sends a request to the server in order to register a user, setting the attributes
+     * of the user exactly like the attributes filed in the form of this component.
+     *
+     */
     registerUser() {
       this.user.role = this.select;
       let data = this.user;

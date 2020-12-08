@@ -1,3 +1,4 @@
+<!-- This component displays the characteristics that the application frontend view will show. -->
 <template>
   <v-app style="background-color:#1f1352;">
     <Appbar />
