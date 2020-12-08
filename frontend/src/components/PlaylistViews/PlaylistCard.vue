@@ -39,7 +39,7 @@
           >
             <v-icon> mdi-cancel </v-icon>
           </v-btn>
-          <v-btn
+          <v-btn v-if="users"
             @click="open_share_dialog"
             class="ml-2 mt-5"
             outlined

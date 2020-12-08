@@ -9,6 +9,8 @@ import UploadView from "./components/UploadViews/UploadView";
 import Profile from "./components/UserViews/Profile";
 import Userlist from "./components/UserViews/Userlist";
 import ProfileEdit from "./components/UserViews/ProfileEdit";
+import UserPlaylists from "./components/PlaylistViews/UserPlaylists";
+
 import store from "./store";
 import { Role } from "./_helpers/role";
 Vue.use(Router);
@@ -54,6 +56,11 @@ const router = new Router({
       component: Userlist,
       meta: { authorize: [Role.ADMIN, Role.SUPERADMIN] },
     },
+    {
+      path: "/user/:id/playlists",
+      component: UserPlaylists,
+      meta: { authorize: [Role.ADMIN, Role.SUPERADMIN]},
+    }
   ],
 });
 export default router;

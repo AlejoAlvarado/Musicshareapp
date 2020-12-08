@@ -70,7 +70,7 @@
                           dark
                           small
                           color="green"
-                          @click="deleteDependency(i)"
+                          :to = "'/user/' + item._id + '/playlists'"
                           v-bind="attrs"
                           v-on="on"
                         >

@@ -77,6 +77,8 @@ router.delete(
   users_controller.delete
 );
 
+router.get('/:id/playlists', isAuth, authRole([ROLES.ADMIN, ROLES.SUPERADMIN]), users_controller.getPlaylistsFromUser);
+
 router.get("/:id", users_controller.search);
 router.post("/signin", users_controller.signinUser);
 router.post("/user-song", function (req, res) {

@@ -137,6 +137,17 @@ exports.search = function (req, res, next) {
   });
 };
 
+exports.getPlaylistsFromUser = function (req, res, next) {
+  User.findById(req.params.id).populate({
+    path: 'playlists', populate: {
+      path: 'owner'
+    }
+  }).exec((err, user) => {
+    if (err) return next(err);
+    res.send(user.playlists);
+  })
+}
+
 exports.update = function (req, res, next) {
   console.log("updating");
   if (req.body.password) {
