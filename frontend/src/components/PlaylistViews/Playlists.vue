@@ -1,3 +1,5 @@
+<!-- Template to show all the playlists available for the user logged in, separated between the playlists owned by
+  him and the ones shared with him. Also has action to create a new playlist -->
 <template>
   <v-container>
     <div>
@@ -79,10 +81,16 @@ export default {
     return {
         playlists: [],
         playlistsSharedWithMe: [],
+
+        //To hide or show playlists owned by the user / shared with the user
         showMyPlaylists: true,
         showSharedPlaylists: true,
+
+        //To show the form to create a new playlist
         playlist_add_dialog: false,
         playlist_title:'',
+
+        //Loads the basic information of all the users, so giving the option of sharing the playlist with them
         usersF:[],
     }
   },
@@ -108,6 +116,8 @@ export default {
         this.playlist_add_dialog=false;
       })
     },
+
+    //Reloads all the playlists that the user can access, generally when an action like deleting a playlist is made.
     reset_playlists(){
         axios.get("playlists/my/Playlists", {
           headers: {
@@ -125,6 +135,7 @@ export default {
   },
   mounted() {
     this.reset_playlists();
+    //Users are only loaded when te component is mounted.
     axios.get("/users/all/basic").then((res)=>{
       this.usersF=res.data;
     })

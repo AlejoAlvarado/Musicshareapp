@@ -1,3 +1,5 @@
+<!-- A table with all the songs that are passed as a prop to the component. Usually loaded inside PlaylistInfo.
+ Has an option to delete the song (Remove it from the playlist) -->
 <template>
   <v-simple-table>
     <thead>
@@ -33,6 +35,7 @@ export default {
     }
   },
   methods:{
+    //The song is just deleted from the playlist, not from the user information
     delete_playlist_song(song){
       console.log(song._id)
       axios.put("/playlists/playlist-delete-song?id="+this.playlist_id,song).then((res)=>{

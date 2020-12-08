@@ -1,3 +1,4 @@
+<!-- The card that is showd to the users when the playlist is shared with them. it only has the action to play it -->
 <template>
   <v-card dark>
     <div class="d-flex flex-no-wrap justify-space-between">

@@ -1,3 +1,5 @@
+<!-- A component that shows all the playlists owned by a specific user. Should only be accessed by admins. Has options
+  to acces to the playlist, play it and delete it -->
 <template>
   <v-container>
     <div>
@@ -28,6 +30,8 @@ export default {
     }
   },
   methods: {
+    //Re-loads all the playlists from the user with the id specified. Called generally when the component is mounted
+    //and when a playlist is deleted.
       reset_playlists(){
           const userId = this.$route.params.id;
           axios.get("/users/"+ userId +"/playlists").then((res) => {
