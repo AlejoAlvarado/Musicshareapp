@@ -66,23 +66,41 @@ exports.index = function (req, res, next) {
  * @param {*} req.body contains user information
  */
 exports.create = function (req, res, next) {
+  console.log("creating");
   User.find({ email: req.body.email }, (err, users) => {
     if (users.length > 0) {
       return res
         .status(400)
         .send({ message: "An user with that email already exists" });
     } else {
-      let user = new User({
-        name: req.body.name,
-        username: req.body.username,
-        //userid: req.body.userid,
-        password: bcrypt.hashSync(req.body.password, 8),
-        //photo: req.body.photo,
-        //state: req.body.state,
-        email: req.body.email,
-        role: ROLES.BASIC,
-        active: true,
-      });
+      console.log(req.body.role);
+      let user = null;
+      if (req.body.role != undefined) {
+        console.log("finishing");
+        user = new User({
+          name: req.body.name,
+          username: req.body.username,
+          //userid: req.body.userid,
+          password: bcrypt.hashSync(req.body.password, 8),
+          //photo: req.body.photo,
+          //state: req.body.state,
+          email: req.body.email,
+          role: req.body.role,
+          active: req.body.active,
+        });
+      } else {
+        user = new User({
+          name: req.body.name,
+          username: req.body.username,
+          //userid: req.body.userid,
+          password: bcrypt.hashSync(req.body.password, 8),
+          //photo: req.body.photo,
+          //state: req.body.state,
+          email: req.body.email,
+          role: ROLES.BASIC,
+          active: true,
+        });
+      }
 
       user.save((err) => {
         if (err) {
