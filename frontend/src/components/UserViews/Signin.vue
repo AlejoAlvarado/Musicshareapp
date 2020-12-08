@@ -75,9 +75,15 @@ export default {
           this.$root.$emit("AudioPlayer");
         },
         (error) => {
-          this.loginMessage = "Incorrect email and/or password.";
-          console.log(error.response);
-          console.log(error.response.data.message);
+          if (error.response.status === 403) {
+            this.loginMessage =
+              "This account is banned. You will not be able to sign in with this account.";
+          } else {
+            this.loginMessage = "Incorrect email and/or password.";
+            console.log(error.response.status);
+            console.log(error.response);
+            console.log(error.response.data.message);
+          }
           this.dialog = true;
         }
       );
