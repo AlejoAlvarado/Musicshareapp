@@ -1,3 +1,6 @@
+/**
+ * A class with the Schemas necessary for the user model
+ */
 const mongoose = require("mongoose");
 const { bool } = require("sharp");
 const Schema = mongoose.Schema;

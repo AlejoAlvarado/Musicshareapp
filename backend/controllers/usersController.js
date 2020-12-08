@@ -1,3 +1,7 @@
+/**
+ * A class with the controllers that will be used by the node backend to make requests related to the users model to the mongo database
+ */
+
 const User = require("../models/users");
 const Playlist = require("../models/playlists");
 const service = require("../services");
@@ -48,7 +52,12 @@ exports.add_song_to_user = function (req, res) {
     });
   }
 };
-
+/**
+ * Function that allows an ADMIN or SUPERADMIN to obtain all users.
+ * If the user has the ADMIN role, it will only be able to obtain all users that are not SUPERADMINS.
+ * @param {*} req.role The role of the user making the request
+ * @param {*} res response that will be sent
+ */
 exports.index = function (req, res, next) {
   console.log(req.role);
   console.log(req.role === ROLES.ADMIN);
@@ -163,13 +172,6 @@ exports.signinUser = function (req, res, next) {
   });
 };
 
-exports.search = function (req, res, next) {
-  User.findById(req.params.id, (err, user) => {
-    if (err) return next(err);
-    res.send(user);
-  });
-};
-
 exports.getPlaylistsFromUser = function (req, res, next) {
   User.findById(req.params.id)
     .populate({
@@ -184,6 +186,13 @@ exports.getPlaylistsFromUser = function (req, res, next) {
     });
 };
 
+/**
+ * Function that allows a user to update one or multiple of its properties.
+ * If there is a password to be updated, it will be encrypted.
+ * @param {*} req The request sent by the user
+ * @param {*} res The response to the client that will be sent
+ * @param {*} next A function to continue to the next request or piece of code
+ */
 exports.update = function (req, res, next) {
   console.log("updating");
   if (req.body.password) {
@@ -198,6 +207,13 @@ exports.update = function (req, res, next) {
   });
 };
 
+/**
+ * This function changes the state of a users active flag from true to false or viceversa whenever it is called.
+ * The function receives the id of the user via the request's parameters.
+ * @param {*} req The request sent by the client
+ * @param {*} res The response that will be sent to the client
+ * @param {*} next A function to continue to the next request or piece of code
+ */
 exports.banned = function (req, res, next) {
   User.findByIdAndUpdate(
     req.params.id,
@@ -212,6 +228,12 @@ exports.banned = function (req, res, next) {
   );
 };
 
+/**
+ * This function gives the possibility to a client to erase a certain user by passing the id of the user via the request parameters.
+ * @param {*} req The request sent by the client
+ * @param {*} res The response that will be sent to the client
+ * @param {*} next A function to continue to the next request or piece of code
+ */
 exports.delete = function (req, res, next) {
   User.findByIdAndRemove(req.params.id, (err, user) => {
     if (err) return next(err);

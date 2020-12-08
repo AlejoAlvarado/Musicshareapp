@@ -1,3 +1,7 @@
+/**
+ * This class is in charge of handling services related to the creation and decodification of authentication tokens
+ * employing jwt.
+ */
 "use strict";
 
 const jwt = require("jwt-simple");
@@ -9,7 +13,7 @@ function createToken(user) {
     sub: user[0]._id,
     iat: moment().unix(),
     exp: moment().add(30, "minutes").unix(),
-    role: user[0].role
+    role: user[0].role,
   };
 
   console.log(payload);

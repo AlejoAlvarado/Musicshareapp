@@ -1,3 +1,6 @@
+/**
+ * A class with all the routes that a client can request related to the user model and user controller
+ */
 var express = require("express");
 var router = express.Router();
 var users_controller = require("../controllers/usersController");
