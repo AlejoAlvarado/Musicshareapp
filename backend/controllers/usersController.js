@@ -11,7 +11,10 @@ const ROLES = {
   BASIC: "BASIC",
   SUPERADMIN: "SUPERADMIN",
 };
-
+/**
+ * To encrypt the password when user is created an when is trying to log in in order to compare it with the one
+ * that is saved.
+ */
 var bcrypt = require("bcryptjs");
 
 /**
@@ -172,6 +175,12 @@ exports.signinUser = function (req, res, next) {
   });
 };
 
+/**
+ * Function that returns all the playlists owned by the user with the id specified
+ * @param {*} req.params.id id of the user 
+ * @param {*} res Package with the response to the user
+ * @param {*} next Callback function
+ */
 exports.getPlaylistsFromUser = function (req, res, next) {
   User.findById(req.params.id)
     .populate({

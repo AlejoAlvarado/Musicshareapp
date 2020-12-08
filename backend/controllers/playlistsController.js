@@ -1,7 +1,17 @@
+/**
+ * A class with the controllers that will be used by the node backend to make requests related to the playlist model to the mongo database
+ */
+
 const Playlist = require("../models/playlists");
 const User = require("../models/users");
 const mongoose = require('mongoose')
 
+/**
+ * Function that allows to see all the playlists saved on the database
+ * @param {*} req Request package
+ * @param {*} res Response package to be sent to the user
+ * @param {*} next Callback function
+ */
 exports.index = function (req, res, next) {
   Playlist.find({}, (err, playlists) => {
     if (err) {
@@ -79,6 +89,12 @@ exports.create = function (req, res, next) {
   });
 };
 
+/**
+ * Function to search a specific playlist by his id
+ * @param {*} req.params.id is the id of the playlist 
+ * @param {*} res Package that will contain the playlist info if everything is ok (Or error message)
+ * @param {*} next Callback Function
+ */
 exports.search = function (req, res, next) {
   Playlist.findById(req.params.id).populate('owner').populate('sharedWith').populate('songs').exec((err, playlist) => {
     if (err) return next(err)
@@ -86,6 +102,12 @@ exports.search = function (req, res, next) {
   })
 }
 
+/**
+ * Function to update a specific playlist based on his id
+ * @param {*} req.params.id is the id of the playlist 
+ * @param {*} res Package answer
+ * @param {*} next Callback funtion
+ */
 exports.update = function (req, res, next) {
   Playlist.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, playlist) => {
     if (err)
@@ -94,7 +116,12 @@ exports.update = function (req, res, next) {
   })
 }
 
-
+/**
+ * Function to delete a specific playlist based on his id
+ * @param {*} req.params.id is the id to the playlist that will be removed 
+ * @param {*} res packa with the response to be sent to the user
+ * @param {*} next Callback function
+ */
 exports.delete = function (req, res, next) {
   Playlist.findByIdAndRemove(req.params.id, (err, playlist) => {
     if (err)
