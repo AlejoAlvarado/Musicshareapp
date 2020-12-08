@@ -77,7 +77,7 @@ router.post(
   users_controller.create
 );
 
-router.post("");
+router.post("/", users_controller.check_username, users_controller.create);
 
 /**
  * Route that allows a playlist to be shared with a user. It is required that the request is made by the owner

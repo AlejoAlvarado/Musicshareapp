@@ -84,6 +84,27 @@ exports.index = function (req, res, next) {
 };
 
 /**
+ * This method verifies that the username receive in the request's body doesn't already exist withing the users in the database.
+ * In case it does exist, it deliver a response with 400 status.
+ * @param {*} req The request sent by the client
+ * @param {*} res The response that will be sent to the client
+ * @param {*} next A function to continue to the next request or piece of code
+ */
+exports.check_username = function (req, res, next) {
+  console.log("checking username");
+  User.find({ username: req.body.username }, (err, users) => {
+    console.log(users);
+    if (users.length > 0) {
+      return res
+        .status(403)
+        .send({ message: "A user with that username already exists" });
+    } else {
+      next();
+    }
+  });
+};
+
+/**
  * Function that registers new users into the application
  * Returns status message
  *
@@ -150,10 +171,12 @@ exports.create = function (req, res, next) {
  */
 exports.signinUser = function (req, res, next) {
   User.find({ email: req.body.email }, (err, user) => {
-    console.log(user[0].active);
     if (err) return res.status(500).send({ message: err });
-    if (user.length < 1)
+    if (user.length < 1) {
+      console.log("user not found");
       return res.status(400).send({ message: "User not found" });
+    }
+    console.log(user[0].active);
     if (user[0].active == false)
       return res.status(403).send("Not signed in. User banned.");
     console.log(req.body.email);

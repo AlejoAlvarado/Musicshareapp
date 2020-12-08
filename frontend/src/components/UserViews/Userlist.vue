@@ -233,6 +233,7 @@ export default {
       this.$router.push("/profedit");
     },
     isAdmin(role) {
+      console.log(role + ", ADMIN" + ":" + role === "ADMIN");
       return role === "ADMIN";
     },
     isSuperadmin(role) {

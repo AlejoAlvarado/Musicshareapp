@@ -7,8 +7,7 @@
         </v-card-title>
 
         <v-card-text>
-          Your account was successfully registered! Please log in to your
-          account.
+          {{ registerMessage }}
         </v-card-text>
 
         <v-divider></v-divider>
@@ -23,13 +22,14 @@
     </v-dialog>
 
     <v-container>
-      <v-form ref="form" align="center">
+      <v-form ref="form" align="center" v-model="valid">
         <div>
           <v-text-field
             v-model="user.name"
             label="Name"
             required
             dark
+            :rules="nameRules"
           ></v-text-field>
         </div>
         <div>
@@ -38,6 +38,7 @@
             label="Usename"
             required
             dark
+            :rules="nameRules"
           ></v-text-field>
         </div>
         <div>
@@ -46,6 +47,7 @@
             label="Email"
             required
             dark
+            :rules="emailRules"
           ></v-text-field>
         </div>
         <v-text-field
@@ -57,10 +59,18 @@
           hint="Por lo menos 5 caracteres"
           class="input-group--focused"
           @click:append="showPass = !showPass"
+          :rules="passwordRules"
           dark
         ></v-text-field>
 
-        <v-btn rounded color="primary" @click="registerUser">Sign Up</v-btn>
+        <v-btn
+          :disabled="!valid"
+          rounded
+          color="primary"
+          @click="registerUser"
+          dark
+          >Sign Up</v-btn
+        >
       </v-form>
     </v-container>
   </div>
@@ -77,22 +87,65 @@ export default {
         email: "",
         password: "",
       },
+      valid: true,
       showPass: false,
       rules: [],
       dialog: false,
+      registerMessage: "",
+      emailRules: [
+        (email) => !!email || "Required",
+        (email) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
+          "Email no valido",
+      ],
+      passwordRules: [
+        (password) => !!password || "Required",
+        (password) =>
+          password.length > 4 || "The password must contain at least 5 letters",
+      ],
+      nameRules: [
+        (name) => !!name || "Required",
+        (name) => name.length > 2 || "The name is too short",
+      ],
     };
   },
   methods: {
     registerUser() {
       let data = this.user;
-      axios.post("/users/", data).then((res) => {
-        if (res.status >= 200 && res.status < 300) {
-          this.refreshUser();
-          this.dialog = !this.dialog;
-        } else {
-          console.log("Ocurrio un error en back");
+      axios.post("/users/", data).then(
+        (res) => {
+          if (res.status >= 200 && res.status < 300) {
+            this.refreshUser();
+            this.$router.push("/");
+            this.registerMessage =
+              "Your account was successfully registered! Please log in to your account.";
+
+            this.dialog = !this.dialog;
+          } else {
+            console.log("Ocurrio un error en back");
+          }
+        },
+        (error) => {
+          if (error.response.status === 400) {
+            this.refreshUser();
+            this.registerMessage =
+              "This account email is already registered. Please use another email to register your account.";
+
+            this.dialog = !this.dialog;
+          } else if (error.response.status === 403) {
+            this.refreshUser();
+            this.registerMessage =
+              "This account username is already registered. Please use another email to register your account.";
+
+            this.dialog = !this.dialog;
+          } else {
+            this.registerMessage =
+              "An error ocurred when registering. Please try again ";
+
+            this.dialog = !this.dialog;
+          }
         }
-      });
+      );
     },
     refreshUser() {
       this.user = {
@@ -104,7 +157,6 @@ export default {
     },
     handleDialog() {
       this.dialog = !this.dialog;
-      this.$router.push("/");
     },
   },
 };
