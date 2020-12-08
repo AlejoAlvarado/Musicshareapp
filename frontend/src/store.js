@@ -53,7 +53,7 @@ export default new Vuex.Store({
       console.log(data.password);
       let pass = data.password;
       console.log(pass);
-      commit("updateProfile", data);
+
       console.log(data.password);
       let userid = data._id;
       if (pass != undefined) {
@@ -65,15 +65,16 @@ export default new Vuex.Store({
       console.log(data);
       return axios.put("/users/" + userid, data).then(
         (res) => {
-          if (res.status >= 200 && res.status < 300) {
-            alert("Profile update succesfully!");
-            // console.log("delete exitoso");
-          } else {
-            console.log("Error updating user");
-          }
+          console.log("successful update");
+          alert("The user was successfully updated");
+          commit("updateProfile", data);
+          return res;
         },
         (error) => {
-          console.log(error.data);
+          console.log("failed update");
+          console.log(error);
+          alert(error.response.data.message);
+          return error;
         }
       );
     },
@@ -86,35 +87,37 @@ export default new Vuex.Store({
         delete data.password;
       }
       if (currentUser.role === Role.ADMIN) {
-        commit("cleanSelectedUser");
         let userid = data._id;
-        return axios.put("/users/" + userid, data).then((res) => {
-          if (res.status >= 200 && res.status < 300) {
-            alert("User updated correctly!");
-          } else if (res.status === 401 || res.status === 403) {
-            alert("You are not authorized to take this action.");
-            console.log("Authorization error");
-            this.dispatch("logout");
-          } else {
-            alert("Error when updating.");
-            console.log("Error when updating");
+        return axios.put("/users/" + userid, data).then(
+          (res) => {
+            console.log("successful update");
+            alert("The user was successfully updated");
+            commit("cleanSelectedUser");
+            return res;
+          },
+          (error) => {
+            console.log("failed update");
+            console.log(error);
+            alert(error.response.data.message);
+            return error;
           }
-        });
+        );
       } else if (currentUser.role === Role.SUPERADMIN) {
-        commit("cleanSelectedUser");
         let userid = data._id;
-        return axios.put("/users/special/" + userid, data).then((res) => {
-          if (res.status >= 200 && res.status < 300) {
-            alert("User updated correctly!");
-          } else if (res.status === 401 || res.status === 403) {
-            alert("You are not authorized to take this action.");
-            console.log("Authorization error");
-            this.dispatch("logout");
-          } else {
-            alert("Error when updating.");
-            console.log("Error when updating");
+        return axios.put("/users/special/" + userid, data).then(
+          (res) => {
+            console.log("successful update");
+            alert("The user was successfully updated");
+            commit("cleanSelectedUser");
+            return res;
+          },
+          (error) => {
+            console.log("failed update");
+            console.log(error);
+            alert(error.response.data.message);
+            return error;
           }
-        });
+        );
       }
     },
     obtainUsers({ commit }) {

@@ -80,11 +80,19 @@ router.put(
   isAuth,
   users_controller.stop_sharing_playlist_with_user
 );
-router.put("/:id", isAuth, users_controller.update);
+router.put(
+  "/:id",
+  isAuth,
+  users_controller.check_email_duplicate,
+  users_controller.check_username_duplicate,
+  users_controller.update
+);
 router.put(
   "/special/:id",
   isAuth,
   authRole(ROLES.SUPERADMIN),
+  users_controller.check_email_duplicate,
+  users_controller.check_username_duplicate,
   users_controller.update
 );
 router.delete(

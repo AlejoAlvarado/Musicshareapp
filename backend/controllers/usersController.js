@@ -102,6 +102,66 @@ exports.check_username = function (req, res, next) {
 };
 
 /**
+ * This method verifies that there doesn't exist an email that is equal to the email passed via the request's body in the mongo database.
+ * In the case that there is a duplicate email in the db, the request's id and the id of the mongo user obtained in the query
+ * are then compared to see if they make reference to same user. In the case that the id's are different, the method will send
+ * a response with status 400. Otherwise the next piece of code will be executed and the method will end.
+ * It is assumed that there is no possibility for more that one user to have a certain email.
+ * @param {*} req The request sent by the client
+ * @param {*} res The response that will be sent to the client
+ * @param {*} next A function to continue to the next request or piece of code
+ */
+exports.check_email_duplicate = function (req, res, next) {
+  console.log("checking email duplicate");
+  User.find({ email: req.body.email }, (err, users) => {
+    console.log(users);
+    if (users.length > 0) {
+      console.log(req.params.id);
+      console.log(users[0]._id);
+      if (req.params.id != users[0]._id) {
+        return res.status(400).send({
+          message:
+            "A user with that email already exists. Please submit another email",
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
+};
+
+/**
+ * This method verifies that there doesn't exist an username that is equal to the email passed via the request's body in the mongo database.
+ * In the case that there is a duplicate username in the db, the request's id and the id of the mongo user obtained in the query
+ * are then compared to see if they make reference to same user. In the case that the id's are different, the method will send
+ * a response with status 400. Otherwise the next piece of code will be executed and the method will end.
+ * It is assumed that there is no possibility for more that one user to have a certain username.
+ * @param {*} req The request sent by the client
+ * @param {*} res The response that will be sent to the client
+ * @param {*} next A function to continue to the next request or piece of code
+ */
+exports.check_username_duplicate = function (req, res, next) {
+  console.log("checking username duplicate");
+  User.find({ username: req.body.username }, (err, users) => {
+    console.log(users);
+    if (users.length > 0) {
+      if (req.params.id != users[0]._id) {
+        return res.status(400).send({
+          message:
+            "A user with that username already exists. Please submit another username",
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
+};
+
+/**
  * Function that registers new users into the application
  * Returns status message
  *
