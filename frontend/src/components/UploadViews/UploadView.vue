@@ -1,3 +1,4 @@
+<!-- Template that represents the page showed when trying to upload a new song -->
 <template>
   <v-container>
       <simple-upload/>

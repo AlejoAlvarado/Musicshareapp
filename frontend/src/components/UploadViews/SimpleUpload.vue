@@ -1,6 +1,9 @@
+<!-- The basic part of the component to Upload. Has the options to open folder of the user computer and
+to select the file. Should be a mp3 file. -->
 <template>
   <div>
       <v-row no-gutters justify="center" align="center">
+        <!-- This col is just the input for the file -->
         <v-col cols="8">
           <v-file-input
             show-size
@@ -10,6 +13,7 @@
           ></v-file-input>
         </v-col>
 
+        <!-- This col has the Button to upload the file selected to the server -->
         <v-col cols="4" class="pl-2">
           <v-btn color="blue" dark small @click="uploadBatch">
             Upload
