@@ -82,10 +82,7 @@
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          @click="
-                            infoDependy(i);
-                            searchUserDepen(selectedDepen.name);
-                          "
+                          :to="'/report/user/' + item._id"
                           class="mx-2"
                           fab
                           dark

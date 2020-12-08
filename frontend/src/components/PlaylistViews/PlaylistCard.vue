@@ -139,12 +139,7 @@ export default {
     },
     share_with_user(user) {
       axios
-        .put("/users/add-shared-playlist?id=" + user._id, this.playlist, {
-          headers: {
-            authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("user")).token,
-          },
-        })
+        .put("/users/add-shared-playlist?id=" + user._id, this.playlist)
         .then((res) => {
           console.log(res);
           this.share_dialog = false;

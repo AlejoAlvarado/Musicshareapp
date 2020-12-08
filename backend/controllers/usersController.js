@@ -55,6 +55,13 @@ exports.add_song_to_user = function (req, res) {
     });
   }
 };
+
+exports.search = function(req, res, next) {
+  User.findById(req.params.id, (err, user) => {
+    if (err) return next(err)
+    res.status(200).send(user);
+  });
+};
 /**
  * Function that allows an ADMIN or SUPERADMIN to obtain all users.
  * If the user has the ADMIN role, it will only be able to obtain all users that are not SUPERADMINS.
@@ -82,6 +89,14 @@ exports.index = function (req, res, next) {
     });
   }
 };
+
+exports.basic_users_info = function(req, res, next){
+  console.log('Hola que taaaal');
+  User.find({}).select('name email username').exec((err, users) => {
+    if (err) return next(err)
+    res.status(200).send(users);
+  })
+}
 
 /**
  * This method verifies that the username receive in the request's body doesn't already exist withing the users in the database.

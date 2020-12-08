@@ -48,13 +48,25 @@ const upload = multer({
   },
 });
 
-/* GET users listing. */
+/** GET all users listing with all their information. 
+* Needs to be admin or superadmin to execute it
+**/
 router.get(
   "/",
   isAuth,
   authRole([ROLES.ADMIN, ROLES.SUPERADMIN]),
   users_controller.index
 );
+
+/**
+ * A method to get only id, name, email and username from an user. Can be executed by any user logged in.
+ */
+router.get('/all/basic', isAuth, users_controller.basic_users_info);
+
+/**
+ * Endpoint to get the basic information about an user.
+ */
+router.get('/:id', isAuth, users_controller.search);
 
 /**
  * Route to ban a user, receives id as param in the route.
