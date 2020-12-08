@@ -256,8 +256,7 @@ exports.signinUser = function (req, res, next) {
       return res.status(403).send("Not signed in. User banned.");
     console.log(req.body.email);
     let equalPass =
-      bcrypt.compareSync(req.body.password, user[0].password) ||
-      user[0].password === req.body.password;
+      bcrypt.compareSync(req.body.password, user[0].password)
     console.log(equalPass);
     if (equalPass) {
       req.user = user;
