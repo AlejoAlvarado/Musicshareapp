@@ -101,7 +101,6 @@ router.get(
   users_controller.getPlaylistsFromUser
 );
 
-router.get("/:id", users_controller.search);
 router.post("/signin", users_controller.signinUser);
 router.post("/user-song", function (req, res) {
   upload.single("file")(req, res, function (err) {
