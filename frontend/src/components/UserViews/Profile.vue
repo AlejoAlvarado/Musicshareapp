@@ -1,3 +1,4 @@
+<!-- Component that shows the view of a user profile. In this component the user is able to modofy and update their own profile. -->
 <template
   ><div>
     <v-container>

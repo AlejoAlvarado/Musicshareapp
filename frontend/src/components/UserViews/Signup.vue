@@ -1,3 +1,4 @@
+<!-- Component with the signUP form that allows a user to create their own profile in the application. -->
 <template
   ><div>
     <v-dialog v-model="dialog" width="500">

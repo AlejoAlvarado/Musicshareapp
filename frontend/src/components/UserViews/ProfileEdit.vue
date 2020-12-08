@@ -1,3 +1,5 @@
+<!-- Component that shows a view of the profile of a certain user when accessed by an ADMIN or SUPERADMIN user. The ADMIN or SUPERADMIN can
+update and modify a user in this component. -->
 <template
   ><div>
     <v-container>

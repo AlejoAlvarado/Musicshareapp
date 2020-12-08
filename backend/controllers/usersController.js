@@ -56,9 +56,9 @@ exports.add_song_to_user = function (req, res) {
   }
 };
 
-exports.search = function(req, res, next) {
+exports.search = function (req, res, next) {
   User.findById(req.params.id, (err, user) => {
-    if (err) return next(err)
+    if (err) return next(err);
     res.status(200).send(user);
   });
 };
@@ -90,13 +90,15 @@ exports.index = function (req, res, next) {
   }
 };
 
-exports.basic_users_info = function(req, res, next){
-  console.log('Hola que taaaal');
-  User.find({}).select('name email username').exec((err, users) => {
-    if (err) return next(err)
-    res.status(200).send(users);
-  })
-}
+exports.basic_users_info = function (req, res, next) {
+  console.log("Hola que taaaal");
+  User.find({})
+    .select("name email username")
+    .exec((err, users) => {
+      if (err) return next(err);
+      res.status(200).send(users);
+    });
+};
 
 /**
  * This method verifies that the username receive in the request's body doesn't already exist withing the users in the database.
@@ -274,7 +276,7 @@ exports.signinUser = function (req, res, next) {
 
 /**
  * Function that returns all the playlists owned by the user with the id specified
- * @param {*} req.params.id id of the user 
+ * @param {*} req.params.id id of the user
  * @param {*} res Package with the response to the user
  * @param {*} next Callback function
  */
