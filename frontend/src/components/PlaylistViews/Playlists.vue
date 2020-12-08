@@ -124,7 +124,7 @@ export default {
   },
   mounted() {
     this.reset_playlists();
-    axios.get("/users").then((res)=>{
+    axios.get("/users/all/basic").then((res)=>{
       this.usersF=res.data;
     })
   },

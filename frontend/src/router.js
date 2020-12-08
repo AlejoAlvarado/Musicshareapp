@@ -12,6 +12,7 @@ import ProfileEdit from "./components/UserViews/ProfileEdit";
 import UserPlaylists from "./components/PlaylistViews/UserPlaylists";
 import RegisterUser from "./components/UserViews/RegisterUser";
 import NotFound from "./components/ErrorViews/NotFound";
+import UserReport from "./components/UserViews/UserReport";
 
 import store from "./store";
 import { Role } from "./_helpers/role";
@@ -70,6 +71,11 @@ const router = new Router({
       path: "/registeruser",
       component: RegisterUser,
       meta: { authorize: [Role.SUPERADMIN] },
+    },
+    {
+      path: "/report/user/:id",
+      component: UserReport,
+      meta: { authorize: [] },
     },
     {
       path: "*",
