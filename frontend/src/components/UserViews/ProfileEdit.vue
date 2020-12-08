@@ -2,7 +2,7 @@
   ><div>
     <v-container>
       <h1>{{ user.username }}'s Profile</h1>
-      <v-form ref="form" align="center">
+      <v-form ref="form" align="center" v-model="valid">
         <div>
           <v-text-field
             v-model="user.name"
@@ -11,6 +11,7 @@
             dark
             ref="textfield"
             :disabled="!edit"
+            :rules="nameRules"
           ></v-text-field>
         </div>
         <div>
@@ -20,6 +21,7 @@
             required
             dark
             :disabled="!edit"
+            :rules="nameRules"
           ></v-text-field>
         </div>
         <div>
@@ -29,6 +31,7 @@
             required
             dark
             :disabled="!edit"
+            :rules="emailRules"
           ></v-text-field>
         </div>
         <v-text-field
@@ -42,6 +45,7 @@
           @click:append="showPass = !showPass"
           dark
           :disabled="!edit"
+          :rules="passwordRules"
         ></v-text-field>
 
         <div v-if="userIsSuperadmin()">
@@ -77,7 +81,11 @@
         <div v-else align="center">
           <v-btn rounded @click="editProfile">Cancel</v-btn>
 
-          <v-btn rounded color="primary" @click="updateSelectedUser"
+          <v-btn
+            rounded
+            color="primary"
+            @click="updateSelectedUser"
+            :disabled="!valid"
             >Save changes</v-btn
           >
         </div>
@@ -103,6 +111,23 @@ export default {
       rules: [],
       edit: false,
       select: "",
+      emailRules: [
+        (email) => !!email || "Required",
+        (email) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
+          "Email no valido",
+      ],
+      passwordRules: [
+        (password) =>
+          password.length > 4 ||
+          password.length == 0 ||
+          "The password must contain at least 5 letters",
+      ],
+      nameRules: [
+        (name) => !!name || "Required",
+        (name) => name.length > 2 || "The name is too short",
+      ],
+      valid: false,
     };
   },
   methods: {

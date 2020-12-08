@@ -2,7 +2,7 @@
   ><div>
     <v-container>
       <h1>Profile</h1>
-      <v-form ref="form" align="center">
+      <v-form ref="form" align="center" v-model="valid">
         <div>
           <v-text-field
             v-model="user.name"
@@ -10,6 +10,7 @@
             required
             dark
             ref="textfield"
+            :rules="nameRules"
             :disabled="!edit"
           ></v-text-field>
         </div>
@@ -19,6 +20,7 @@
             label="Usename"
             required
             dark
+            :rules="nameRules"
             :disabled="!edit"
           ></v-text-field>
         </div>
@@ -28,6 +30,7 @@
             label="Email"
             required
             dark
+            :rules="emailRules"
             :disabled="!edit"
           ></v-text-field>
         </div>
@@ -42,6 +45,7 @@
           @click:append="showPass = !showPass"
           dark
           :disabled="!edit"
+          :rules="passwordRules"
         ></v-text-field>
 
         <div v-if="!edit" align="center">
@@ -53,7 +57,12 @@
         <div v-else align="center">
           <v-btn rounded @click="editProfile">Cancel</v-btn>
 
-          <v-btn rounded color="primary" @click="updateUser"
+          <v-btn
+            :disabled="!valid"
+            rounded
+            color="primary"
+            @click="updateUser"
+            dark
             >Save changes</v-btn
           >
         </div>
@@ -74,8 +83,27 @@ export default {
         password: "",
       },
       showPass: false,
+      dialog: false,
       rules: [],
       edit: false,
+      message: "",
+      emailRules: [
+        (email) => !!email || "Required",
+        (email) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
+          "Email no valido",
+      ],
+      passwordRules: [
+        (password) =>
+          password.length > 4 ||
+          password.length == 0 ||
+          "The password must contain at least 5 letters",
+      ],
+      nameRules: [
+        (name) => !!name || "Required",
+        (name) => name.length > 2 || "The name is too short",
+      ],
+      valid: false,
     };
   },
   methods: {
@@ -90,11 +118,18 @@ export default {
         delete this.user.password;
         this.updateProfile(this.user);
         this.editProfile();
+        this.refreshUser();
       } else {
         console.log("password");
         this.updateProfile(this.user);
         this.editProfile();
+        this.refreshUser();
       }
+    },
+    refreshUser() {
+      let currentUser = this.$store.getters.getUser;
+      this.user = currentUser;
+      this.user.password = "";
     },
   },
   created() {
@@ -105,7 +140,7 @@ export default {
       alert("You are not logged in. Please login to access this page.");
       this.$router.push("/signin");
     } else {
-      
+
     }*/
   },
 };

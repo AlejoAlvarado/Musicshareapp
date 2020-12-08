@@ -49,9 +49,9 @@ const upload = multer({
   },
 });
 
-/** GET all users listing with all their information. 
-* Needs to be admin or superadmin to execute it
-**/
+/** GET all users listing with all their information.
+ * Needs to be admin or superadmin to execute it
+ **/
 router.get(
   "/",
   isAuth,
@@ -62,12 +62,12 @@ router.get(
 /**
  * A method to get only id, name, email and username from an user. Can be executed by any user logged in.
  */
-router.get('/all/basic', isAuth, users_controller.basic_users_info);
+router.get("/all/basic", isAuth, users_controller.basic_users_info);
 
 /**
  * Endpoint to get the basic information about an user.
  */
-router.get('/:id', isAuth, users_controller.search);
+router.get("/:id", isAuth, users_controller.search);
 
 /**
  * Route to ban a user, receives id as param in the route.
@@ -111,19 +111,25 @@ router.put(
   isAuth,
   users_controller.stop_sharing_playlist_with_user
 );
-
 /**
  * Route to update a user
  */
-router.put("/:id", isAuth, users_controller.update);
-
+router.put(
+  "/:id",
+  isAuth,
+  users_controller.check_email_duplicate,
+  users_controller.check_username_duplicate,
+  users_controller.update
+);
 /**
- * Route that allows a superadmin to update an user.
+ * route that allows a superadmin to update a user
  */
 router.put(
   "/special/:id",
   isAuth,
   authRole(ROLES.SUPERADMIN),
+  users_controller.check_email_duplicate,
+  users_controller.check_username_duplicate,
   users_controller.update
 );
 
