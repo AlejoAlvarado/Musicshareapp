@@ -1,3 +1,5 @@
+<!-- A template that shows the basic information about a playlist and the actions that are available depending on the user-->
+
 <template>
   <v-card dark>
     <div class="d-flex flex-no-wrap justify-space-between">
@@ -39,6 +41,7 @@
           >
             <v-icon> mdi-cancel </v-icon>
           </v-btn>
+          <!-- This is only showed if users are passed to the card -->
           <v-btn v-if="users"
             @click="open_share_dialog"
             class="ml-2 mt-5"
@@ -103,6 +106,7 @@ export default {
     playlist: {
       type: Object,
     },
+    //If false, don't shows the v-actions of the card
     editable: {
       type: Boolean,
     },
@@ -110,6 +114,7 @@ export default {
       type: Array,
     },
   },
+  //Data here is to manage the fact to show the dialogs of delete playlist or share it with users
   data() {
     return {
       delete_dialog: false,
@@ -117,6 +122,7 @@ export default {
     };
   },
   methods: {
+    //Saves the playlist on the store with the songs to be able to reproduce them and navigate
     reproduce_playlist() {
       console.log(this.playlist.songs);
       this.$store.commit("setMusicplaylist", this.playlist.songs);
