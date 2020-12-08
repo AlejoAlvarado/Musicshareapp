@@ -26,18 +26,20 @@
         <div>
           <v-text-field
             v-model="user.email"
-            label="Correo"
+            label="Email"
             required
+            :rules="emailRules"
             dark
           ></v-text-field>
         </div>
         <v-text-field
           :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPass ? 'text' : 'password'"
+          :rules="passwordRules"
           v-model="user.password"
           name="input-10-2"
-          label="Contraseña"
-          hint="Por lo menos 5 caracteres"
+          label="Password"
+          hint="Password must have at least 5 letters"
           class="input-group--focused"
           @click:append="showPass = !showPass"
           dark
@@ -62,6 +64,13 @@ export default {
       loginMessage: "something something",
       dialog: false,
       showPass: false,
+      emailRules: [
+        (email) => !!email || "Required",
+        (email) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) ||
+          "Email no valido",
+      ],
+      passwordRules: [(password) => !!password || "Required"],
     };
   },
   methods: {

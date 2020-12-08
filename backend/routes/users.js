@@ -68,7 +68,7 @@ router.post(
   users_controller.create
 );
 
-router.post("");
+router.post("/", users_controller.check_username, users_controller.create);
 
 router.put(
   "/add-shared-playlist",

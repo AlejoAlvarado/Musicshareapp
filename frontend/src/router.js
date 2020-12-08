@@ -11,6 +11,7 @@ import Userlist from "./components/UserViews/Userlist";
 import ProfileEdit from "./components/UserViews/ProfileEdit";
 import UserPlaylists from "./components/PlaylistViews/UserPlaylists";
 import RegisterUser from "./components/UserViews/RegisterUser";
+import NotFound from "./components/ErrorViews/NotFound";
 
 import store from "./store";
 import { Role } from "./_helpers/role";
@@ -33,14 +34,17 @@ const router = new Router({
     {
       path: "/playlists",
       component: Playlists,
+      meta: { authorize: [] },
     },
     {
       path: "/upload",
       component: UploadView,
+      meta: { authorize: [] },
     },
     {
       path: "/playlists/:id",
       component: PlaylistInfo,
+      meta: { authorize: [] },
     },
     {
       path: "/profile",
@@ -60,12 +64,16 @@ const router = new Router({
     {
       path: "/user/:id/playlists",
       component: UserPlaylists,
-      meta: { authorize: [Role.ADMIN, Role.SUPERADMIN]},
+      meta: { authorize: [Role.ADMIN, Role.SUPERADMIN] },
     },
     {
       path: "/registeruser",
       component: RegisterUser,
       meta: { authorize: [Role.SUPERADMIN] },
+    },
+    {
+      path: "*",
+      component: NotFound,
     },
   ],
 });
