@@ -154,6 +154,7 @@ exports.add_song_to_playlist = function (req, res, next) {
  * 
  */
 exports.delete_playlist_song = function (req, res, next) {
+  console.log(req.body);
   Playlist.findByIdAndUpdate({ _id: req.query.id }, { $pull: { songs: { _id: req.body._id } } }, (err, playlist) => {
     if (err) next(err)
     res.send("Song deleted succesfully")

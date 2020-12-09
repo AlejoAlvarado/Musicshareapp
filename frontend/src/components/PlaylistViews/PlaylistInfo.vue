@@ -111,6 +111,7 @@ export default {
       console.log(this.playlist);
     },
     add_song_to_playlist(song) {
+      console.log(song)
       axios
         .put("/playlists/playlist-song?id=" + this.$route.params.id, song)
         .then((res) => {
